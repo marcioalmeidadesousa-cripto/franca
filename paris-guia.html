@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Paris · Jun 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{
+  --navy:#1b3568;--gold:#c8a030;--light:#f2f0ec;
+  --walk:#2e7d32;--l1:#f5a000;--l4:#a0006e;--l6:#5fa832;--rerc:#cc0000;
+  --red:#c0392b;--muted:#666;--white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#dde3ef;
+  color:#1e1e1e;max-width:700px;margin:0 auto;padding-bottom:2rem;}
+
+/* ── HEADER ── */
+.hdr{
+  position:relative;height:260px;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding-bottom:1.6rem;text-align:center;
+}
+.hdr-bg{
+  position:absolute;inset:0;
+  background-color:#1b3568;
+  background-image:url('eiffel-header.jpg');
+  background-size:cover;background-position:center 30%;
+}
+.hdr-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,18,50,.35) 0%,rgba(10,18,50,.72) 100%);
+  z-index:1;
+}
+.hdr-content{position:relative;z-index:2;color:#fff;}
+.hdr-content h1{font-size:2.2rem;font-weight:900;letter-spacing:-.5px;
+  text-shadow:0 2px 12px rgba(0,0,0,.7);}
+.hdr-content p{font-size:.82rem;color:rgba(255,255,255,.78);margin-top:.25rem;
+  text-shadow:0 1px 6px rgba(0,0,0,.6);}
+.hotel-tag{display:inline-flex;align-items:center;gap:.35rem;
+  background:rgba(200,160,48,.28);border:1px solid rgba(200,160,48,.6);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-radius:999px;padding:.32rem .9rem;font-size:.78rem;
+  color:#f5d878;margin-top:.85rem;font-weight:600;}
+
+/* ── EMERGENCY PILLS ── */
+.sos-row{display:flex;gap:.5rem;padding:.65rem .9rem;overflow-x:auto;
+  background:#1a1a2e;scrollbar-width:none;}
+.sos-row::-webkit-scrollbar{display:none;}
+.sos-pill{display:inline-flex;align-items:center;gap:.3rem;border-radius:999px;
+  padding:.3rem .75rem;font-size:.72rem;font-weight:700;white-space:nowrap;flex-shrink:0;}
+.sos-r{background:#7b1d1d;color:#ffaaaa;}
+.sos-o{background:#7a3b00;color:#ffc97a;}
+.sos-b{background:#0d3060;color:#90c8ff;}
+.sos-g{background:#1b4d2e;color:#86efac;}
+
+/* ── TOGGLE ROWS ── */
+.tog-btn{width:100%;border:none;padding:.82rem 1.1rem;text-align:left;
+  font-size:.84rem;font-weight:700;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.08);}
+.tog-btn.dark{background:rgba(45,45,68,.94);color:#d0d4ff;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.tog-btn.green{background:rgba(22,80,38,.92);color:#b6f5c8;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.tog-btn .arr{transition:transform .3s;font-size:1rem;}
+.tog-btn.open .arr{transform:rotate(90deg);}
+
+/* ── PANELS ── */
+.tog-panel{display:none;padding:1rem 1rem 1.2rem;}
+.tog-panel.open{display:block;}
+.tog-panel.dark{background:#1e1e35;}
+.tog-panel.green-bg{background:#f0faf3;border-bottom:2px solid #7ec89a;}
+
+/* PHRASES */
+.ph-apps{background:rgba(255,200,0,.12);border:1px solid rgba(255,200,0,.3);
+  border-radius:8px;padding:.6rem .8rem;font-size:.76rem;color:#f0d070;
+  line-height:1.6;margin-bottom:.75rem;}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;}
+.ph{background:rgba(255,255,255,.08);border-radius:9px;padding:.6rem .7rem;
+  border-left:3px solid var(--navy);}
+.ph .pt{font-size:.75rem;font-weight:700;color:#a0c0ff;}
+.ph .fr{font-size:.78rem;color:#e8e8ff;margin:.12rem 0;}
+.ph .pron{font-size:.68rem;color:#888;font-style:italic;}
+
+/* INGRESSOS */
+.ing-note{background:#fff3cd;border:1px solid #e6c74a;border-radius:9px;
+  padding:.65rem .85rem;font-size:.77rem;color:#5c4200;margin-bottom:.9rem;line-height:1.6;}
+.ing-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+.ing-card{background:rgba(255,255,255,.92);border-radius:18px;padding:.85rem .8rem;
+  box-shadow:0 3px 14px rgba(0,0,0,.1);display:flex;flex-direction:column;gap:.35rem;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.ing-card .ic-icon{font-size:1.5rem;line-height:1;}
+.ing-card .ic-name{font-size:.8rem;font-weight:800;color:var(--navy);}
+.ing-card .ic-price{font-size:.72rem;color:#2e7d32;font-weight:700;}
+.ing-card .ic-when{font-size:.68rem;color:var(--muted);line-height:1.4;}
+.ing-card .ic-tip{font-size:.68rem;color:#5c4200;background:#fff8e1;
+  border-radius:5px;padding:.3rem .45rem;line-height:1.4;margin-top:.1rem;}
+.ing-card .ic-free{color:#c0392b;font-weight:700;font-size:.72rem;}
+.btn-lnk{display:block;margin-top:auto;padding-top:.4rem;background:var(--navy);
+  color:#fff;border-radius:7px;padding:.4rem .5rem;font-size:.69rem;font-weight:700;
+  text-decoration:none;text-align:center;margin-top:.5rem;}
+.btn-lnk:hover{background:#2a4f8a;}
+.btn-lnk.free{background:#2e7d32;}
+.btn-lnk.opt{background:#888;}
+.ing-full{grid-column:1/-1;}
+
+/* ── DAY CARDS (collapsed) ── */
+.day-row{
+  margin:8px 10px;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,.14);
+}
+.day-btn{width:100%;border:none;
+  background:rgba(255,255,255,.9);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  padding:0;display:flex;align-items:stretch;cursor:pointer;text-align:left;
+  transition:background .2s;}
+.day-btn:hover{background:rgba(245,247,255,.96);}
+.day-btn.open{background:rgba(238,243,255,.98);}
+.day-badge{background:var(--navy);color:#fff;min-width:66px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:.6rem .3rem;flex-shrink:0;}
+.day-badge .dn{font-size:.62rem;font-weight:800;text-transform:uppercase;
+  letter-spacing:.5px;opacity:.75;}
+.day-badge .dd{font-size:.95rem;font-weight:900;}
+.day-badge .dm{font-size:.58rem;opacity:.65;margin-top:.1rem;}
+.day-mid{flex:1;padding:.65rem .7rem;display:flex;flex-direction:column;justify-content:center;}
+.day-mid h3{font-size:.87rem;font-weight:800;color:var(--navy);line-height:1.3;margin-bottom:.2rem;}
+.day-mid p{font-size:.72rem;color:var(--muted);line-height:1.4;}
+.day-thumb-wrap{width:76px;height:76px;flex-shrink:0;overflow:hidden;align-self:center;
+  margin:.5rem .4rem .5rem 0;border-radius:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.18);}
+.day-thumb-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.day-thumb-wrap .thumb-fb{width:100%;height:100%;display:flex;align-items:center;
+  justify-content:center;font-size:2.2rem;}
+.day-arr{display:flex;align-items:center;padding-right:.6rem;color:#bbb;
+  font-size:1.3rem;transition:transform .3s;flex-shrink:0;}
+.day-btn.open .day-arr{transform:rotate(90deg);}
+
+/* ── DAY CONTENT (expanded) ── */
+.day-content{display:none;
+  background:rgba(249,251,255,.97);
+  border-top:1px solid rgba(255,255,255,.6);}
+.day-content.open{display:block;}
+
+/* MAP */
+.map-div{height:230px;width:100%;}
+.map-wrap{position:relative;}
+.map-legend{background:rgba(255,255,255,.92);border-radius:7px;padding:.45rem .65rem;
+  position:absolute;bottom:10px;right:10px;z-index:1000;font-size:.65rem;line-height:1.9;}
+.ml-row{display:flex;align-items:center;gap:.35rem;}
+.ml-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.ml-line{width:16px;height:3px;flex-shrink:0;border-radius:2px;}
+.ml-dash{width:16px;height:0;border-top:2.5px dashed;flex-shrink:0;}
+
+/* STEPS */
+.steps{padding:.65rem .85rem;}
+
+/* SPOT PHOTO */
+.spot-photo-wrap{position:relative;border-radius:20px;overflow:hidden;
+  height:170px;margin-bottom:.7rem;margin-top:.5rem;
+  box-shadow:0 4px 18px rgba(0,0,0,.18);}
+.spot-photo-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.spot-photo-fb{width:100%;height:100%;display:flex;align-items:center;
+  justify-content:center;font-size:4rem;}
+.spot-photo-label{position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,.75));
+  color:#fff;font-size:.82rem;font-weight:800;padding:.7rem .9rem;}
+
+/* SEGMENTS */
+.seg{margin-bottom:.85rem;}
+.seg-header{display:flex;align-items:center;gap:.6rem;padding:.55rem .75rem;
+  border-radius:16px 16px 0 0;font-size:.8rem;font-weight:700;}
+.seg-header.walk-h{background:#e8f5e9;color:var(--walk);}
+.seg-header.metro-h{background:#fff3e0;color:#e65100;}
+.seg-header.rerc-h{background:#ffebee;color:var(--rerc);}
+.seg-header.spot-h{background:#e8eaf6;color:var(--navy);}
+.mode-badge{font-size:.68rem;font-weight:800;padding:.18rem .5rem;border-radius:999px;color:#fff;}
+.walk-badge{background:var(--walk);}
+.metro-badge{background:#555;}
+.rerc-badge{background:var(--rerc);}
+.spot-badge{background:var(--navy);}
+.seg-body{background:rgba(255,255,255,.88);border-radius:0 0 16px 16px;padding:.8rem .9rem;
+  box-shadow:0 3px 10px rgba(0,0,0,.07);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.seg-body ul{list-style:none;padding:0;}
+.seg-body li{display:flex;gap:.55rem;padding:.4rem 0;
+  border-bottom:1px solid #f2f2f2;font-size:.8rem;line-height:1.5;}
+.seg-body li:last-child{border-bottom:none;}
+.step-num{background:var(--navy);color:#fff;border-radius:50%;
+  width:1.3rem;height:1.3rem;font-size:.62rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;}
+.ml-tag{display:inline-flex;align-items:center;justify-content:center;
+  min-width:1.25rem;height:1.25rem;border-radius:50%;font-weight:900;
+  font-size:.6rem;color:#fff;padding:0 .22rem;vertical-align:middle;flex-shrink:0;}
+.t1{background:var(--l1);}
+.t4{background:var(--l4);}
+.t6{background:var(--l6);}
+.tr{background:var(--rerc);border-radius:3px !important;}
+.dir-box{background:#1b3568;color:#fff;border-radius:4px;padding:.08rem .35rem;
+  font-size:.67rem;font-weight:700;display:inline-block;vertical-align:middle;margin:0 .15rem;}
+.sta{font-weight:700;color:var(--navy);}
+.xfer{color:#d35400;font-size:.7rem;font-weight:700;}
+.dur{font-size:.7rem;color:#888;}
+.walk-row{display:flex;align-items:center;gap:.4rem;font-size:.78rem;
+  color:var(--walk);font-weight:700;margin-top:.55rem;}
+
+/* TIP BOXES */
+.tip-b{background:rgba(255,248,225,.9);border-left:3px solid var(--gold);border-radius:8px;
+  padding:.55rem .75rem;font-size:.76rem;color:#5c4200;margin-top:.55rem;line-height:1.6;}
+.warn-b{background:rgba(253,236,234,.9);border-left:3px solid var(--red);border-radius:8px;
+  padding:.55rem .75rem;font-size:.76rem;color:#7b1d1d;margin-top:.55rem;line-height:1.6;}
+.info-b{background:rgba(232,244,253,.9);border-left:3px solid #1976d2;border-radius:8px;
+  padding:.55rem .75rem;font-size:.76rem;color:#0d3f6b;margin-top:.55rem;line-height:1.6;}
+.fr-say{background:#e8eaf6;border-radius:8px;padding:.5rem .75rem;font-size:.75rem;margin-top:.55rem;}
+.fr-say .fr-lbl{font-size:.63rem;font-weight:800;color:#3949ab;text-transform:uppercase;letter-spacing:.4px;}
+.fr-say .fr-txt{font-weight:700;color:#1a237e;margin:.12rem 0;}
+.fr-say .fr-pr{color:var(--muted);font-style:italic;}
+.fr-say .fr-pt{color:#333;}
+.divider{display:flex;align-items:center;gap:.5rem;margin:.4rem 0 .8rem;color:#bbb;font-size:.7rem;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e0e0e0;}
+
+/* TICKET BOX (inside day accordion) */
+.ticket-box{background:var(--navy);color:#fff;border-radius:16px;
+  padding:.85rem .9rem;margin:.6rem 0;font-size:.78rem;line-height:1.6;}
+.ticket-box h4{color:var(--gold);font-size:.8rem;margin-bottom:.45rem;}
+.ticket-box ul{list-style:none;padding:0;}
+.ticket-box li{padding:.18rem 0;display:flex;gap:.45rem;align-items:flex-start;}
+
+/* VERSAILLES NOTE */
+.vers-note{background:#f3e5f5;border:1px solid #ce93d8;border-radius:9px;
+  padding:.7rem .85rem;font-size:.78rem;color:#4a148c;margin:.65rem 0;line-height:1.6;}
+
+/* FOOTER */
+.footer{background:#0c1f4a;color:rgba(255,255,255,.5);text-align:center;
+  padding:1.4rem;font-size:.72rem;line-height:1.8;
+  border-radius:24px 24px 0 0;margin-top:10px;}
+.footer .bon{color:var(--gold);font-weight:700;font-size:.8rem;margin-bottom:.3rem;}
+
+@media(max-width:400px){
+  .ph-grid,.ing-grid{grid-template-columns:1fr;}
+  .hdr-content h1{font-size:1.6rem;}
+  .day-thumb-wrap{width:60px;height:60px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="hdr">
+  <div class="hdr-bg" id="hdr-bg"></div>
+  <div class="hdr-overlay"></div>
+  <div class="hdr-content">
+    <h1>Guia Paris</h1>
+    <p>Viagem Marcio, Juliana, Gustavo, Gabriel e Leonardo</p>
+    <div class="hotel-tag">🏨 Hotel Ibis · Torre Eiffel</div>
+  </div>
+</div>
+
+<!-- ═══ EMERGÊNCIAS ═══ -->
+<div class="sos-row">
+  <span class="sos-pill sos-r">🆘 Emergência: 112</span>
+  <span class="sos-pill sos-o">🚑 SAMU: 15</span>
+  <span class="sos-pill sos-b">🚓 Polícia: 17</span>
+  <span class="sos-pill sos-g">🏥 Hôpital Lariboisière · com tradutores</span>
+</div>
+
+<!-- ═══ FRASES ═══ -->
+<button class="tog-btn dark" onclick="tog('frases',this)">
+  💬 Frases essenciais em francês
+  <span class="arr">›</span>
+</button>
+<div class="tog-panel dark" id="panel-frases">
+  <div class="ph-apps">📱 <strong>Baixe antes:</strong> App <strong>Île-de-France Mobilités</strong> (metro) · <strong>Google Maps offline</strong> (Paris sem internet) · <strong>Google Translate câmera</strong> (lê placas em tempo real)</div>
+  <div class="ph-grid">
+    <div class="ph"><div class="pt">Não falo francês</div><div class="fr">Je ne parle pas français</div><div class="pron">Jeh nuh parl pah fran-SAY</div></div>
+    <div class="ph"><div class="pt">Fala inglês?</div><div class="fr">Parlez-vous anglais ?</div><div class="pron">Par-lay-voo on-GLAY?</div></div>
+    <div class="ph"><div class="pt">Onde é o metro?</div><div class="fr">Où est le métro ?</div><div class="pron">Oo ay luh may-TROH?</div></div>
+    <div class="ph"><div class="pt">Um bilhete, por favor</div><div class="fr">Un ticket, s'il vous plaît</div><div class="pron">Uhn tee-KAY, seel voo PLAY</div></div>
+    <div class="ph"><div class="pt">Onde fica a saída?</div><div class="fr">Où est la sortie ?</div><div class="pron">Oo ay la sor-TEE?</div></div>
+    <div class="ph"><div class="pt">Me ajude, por favor</div><div class="fr">Aidez-moi, s'il vous plaît</div><div class="pron">Ay-day-mwa, seel voo PLAY</div></div>
+    <div class="ph"><div class="pt">Quanto custa?</div><div class="fr">C'est combien ?</div><div class="pron">Say com-BYAN?</div></div>
+    <div class="ph"><div class="pt">Obrigado/a</div><div class="fr">Merci beaucoup</div><div class="pron">Mair-SEE boh-KOO</div></div>
+  </div>
+</div>
+
+<!-- ═══ INGRESSOS ═══ -->
+<button class="tog-btn green" onclick="tog('ing',this)">
+  🎫 Ingressos — Compre com antecedência
+  <span class="arr">›</span>
+</button>
+<div class="tog-panel green-bg" id="panel-ing">
+  <div class="ing-note">⚠️ <strong>Compre ANTES de viajar!</strong> Torre Eiffel e Louvre esgotam semanas antes. Sem ingresso online = horas de fila ou entrada negada. Abra cada link, escolha a data e o horário.</div>
+  <div class="ing-grid">
+
+    <div class="ing-card">
+      <div class="ic-icon">🗼</div>
+      <div class="ic-name">Torre Eiffel</div>
+      <div class="ic-price">Cume €29,40 · 2.º andar €18,80</div>
+      <div class="ic-when">⏰ Compre com 2–3 meses de antecedência — esgota rápido!</div>
+      <div class="ic-tip">💡 Escolha "Sommet" para o topo. Horário 17h–19h = luz dourada do pôr do sol.</div>
+      <a class="btn-lnk" href="https://tickets.toureiffel.paris" target="_blank">🔗 tickets.toureiffel.paris</a>
+    </div>
+
+    <div class="ing-card">
+      <div class="ic-icon">🏰</div>
+      <div class="ic-name">Palácio de Versalhes</div>
+      <div class="ic-price">Palácio €21,50 · Com jardins €29,50</div>
+      <div class="ic-when">⏰ Compre com 2–4 semanas de antecedência.</div>
+      <div class="ic-tip">💡 Verifique "Grandes Eaux Musicales" (fontes com música) em junho — espetáculo extra!</div>
+      <a class="btn-lnk" href="https://www.chateauversailles.fr/preparer-ma-visite/billets-reservations" target="_blank">🔗 chateauversailles.fr</a>
+    </div>
+
+    <div class="ing-card">
+      <div class="ic-icon">🖼️</div>
+      <div class="ic-name">Museu do Louvre</div>
+      <div class="ic-price">€22 · Gratuito menores de 18 anos</div>
+      <div class="ic-when">⏰ Compre 1–2 semanas antes. Sem ingresso = 2h+ de fila.</div>
+      <div class="ic-tip">💡 Chegue às 9h com ingresso. Entre na fila rápida "Billet Internet" — economiza 1h.</div>
+      <a class="btn-lnk" href="https://www.ticketlouvre.fr" target="_blank">🔗 ticketlouvre.fr</a>
+    </div>
+
+    <div class="ing-card">
+      <div class="ic-icon">⭐</div>
+      <div class="ic-name">Arco do Triunfo</div>
+      <div class="ic-price">€13 · Gratuito menores 18 anos (UE)</div>
+      <div class="ic-when">⏰ Pode comprar no dia, mas online evita fila na bilheteria.</div>
+      <div class="ic-tip">💡 Leve documento. Abre às 10h. 284 degraus — não há elevador!</div>
+      <a class="btn-lnk" href="https://www.paris-arc-de-triomphe.fr" target="_blank">🔗 paris-arc-de-triomphe.fr</a>
+    </div>
+
+    <div class="ing-card">
+      <div class="ic-icon">⛪</div>
+      <div class="ic-name">Notre-Dame de Paris</div>
+      <div class="ic-free">ENTRADA GRATUITA</div>
+      <div class="ic-when">⏰ Reserve slot gratuito online. Escolha sexta 14h30/15h para a Coroa de Cristo (exposta 15h–18h30).</div>
+      <div class="ic-tip">💡 Não precisa de ingresso para ver a Coroa, mas precisa estar dentro da catedral.</div>
+      <a class="btn-lnk free" href="https://www.notredamedeparis.fr/visiter/reservation" target="_blank">🔗 notredamedeparis.fr (grátis)</a>
+    </div>
+
+    <div class="ing-card">
+      <div class="ic-icon">⛵</div>
+      <div class="ic-name">Cruzeiro Rio Sena</div>
+      <div class="ic-price">~€17 por pessoa</div>
+      <div class="ic-when">⏰ Pode comprar no dia ou 1–2 dias antes.</div>
+      <div class="ic-tip">💡 Embarque na Port de la Bourdonnais — 5 min a pé da Torre. Leve casaco, venta no rio à noite.</div>
+      <a class="btn-lnk" href="https://www.bateauxparisiens.com" target="_blank">🔗 bateauxparisiens.com</a>
+    </div>
+
+    <div class="ing-card ing-full" style="border-left:4px solid var(--rerc);">
+      <div class="ic-icon">🚄</div>
+      <div class="ic-name">RER C — Trem para Versalhes (ida e volta)</div>
+      <div class="ic-price">~€4,35 por trecho · zona 1-4 · (~€8,70 ida+volta)</div>
+      <div class="ic-when">⏰ Compre na máquina da estação no dia (aceita cartão). Escolha inglês na máquina — toque na bandeira britânica.</div>
+      <div class="ic-tip">💡 <strong>Guarde o bilhete</strong> para sair em Versalhes — há catraca na saída! Bilhete normal do metro NÃO funciona.</div>
+      <a class="btn-lnk opt" href="https://www.sncf-connect.com" target="_blank">🔗 sncf-connect.com (opcional — antecipar)</a>
+    </div>
+
+    <div class="ing-card ing-full" style="background:#f3e5f5;border:1px solid #ce93d8;">
+      <div class="ic-icon">🍫</div>
+      <div class="ic-name">Le Nesle — O Bolo da Matilda</div>
+      <div class="ic-free" style="color:#4a148c;">SEM RESERVA · SEM INGRESSO</div>
+      <div class="ic-when">Apresente-se direto · 32 Rue de Nesle, 75006 Paris · pode ter fila curta.</div>
+      <div class="ic-tip">💡 Peça: "Le gâteau au chocolat chaud, c'est ma première fois !" — e o garçom faz o ritual do chocolate quente na mesa.</div>
+    </div>
+
+  </div>
+  <div class="ing-note" style="margin-top:.75rem;">
+    📱 <strong>Dica extra:</strong> App <strong>Île-de-France Mobilités</strong> permite carregar bilhetes de metro no telemóvel — aceita cartões Visa/Mastercard portugueses.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DIA 1 · 23/06
+═══════════════════════════════════════ -->
+<div class="day-row">
+<button class="day-btn" onclick="openDay('d1',this)">
+  <div class="day-badge"><span class="dn">DIA</span><span class="dd">1</span><span class="dm">23/06</span></div>
+  <div class="day-mid">
+    <h3>🗼 Torre Eiffel &amp; Cruzeiro no Sena</h3>
+    <p>Chegada · Torre Eiffel · Cruzeiro noturno no Sena</p>
+  </div>
+  <div class="day-thumb-wrap">
+    <img data-wiki="Eiffel Tower" src="" style="display:none" alt="Torre Eiffel">
+    <div class="thumb-fb" style="background:#1b3568;">🗼</div>
+  </div>
+  <div class="day-arr">›</div>
+</button>
+<div class="day-content" id="content-d1">
+
+  <div class="map-wrap">
+    <div id="map1" class="map-div"></div>
+    <div class="map-legend">
+      <div class="ml-row"><span class="ml-dot" style="background:#1b3568"></span> Hotel</div>
+      <div class="ml-row"><span class="ml-dot" style="background:var(--gold)"></span> Atração</div>
+      <div class="ml-row"><span class="ml-dash" style="border-color:var(--walk)"></span> A pé</div>
+    </div>
+  </div>
+
+  <div class="steps">
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">CHEGADA</span> Check-in no Hotel Ibis</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Chegue ao hotel, descanse, guarde as malas. O hotel fica a <strong>5–10 min a pé</strong> da Torre Eiffel.</span></li>
+          <li><span class="step-num">2</span><span>Se o quarto não estiver pronto, deixe as malas na recepção. Diga: <em>"Puis-je laisser mes bagages ?"</em> (Pui-jeh lay-SAY may ba-GAJH?)</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FOTO TORRE EIFFEL -->
+    <div class="spot-photo-wrap">
+      <img data-wiki="Eiffel Tower" data-wiki-size="1200" src="" style="display:none" alt="Torre Eiffel">
+      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#1b3568,#2a4f8a)">🗼</div>
+      <div class="spot-photo-label">🗼 Torre Eiffel</div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header walk-h"><span class="mode-badge walk-badge">A PÉ</span> Hotel → Torre Eiffel · ~9 min · 700 m</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Saia do hotel em direção ao Rio Sena — você verá a Torre Eiffel à sua frente.</span></li>
+          <li><span class="step-num">2</span><span>Siga o fluxo de turistas até o <strong>Champ de Mars</strong> (grande parque em frente à torre). A entrada fica embaixo da torre, com checkpoints de segurança.</span></li>
+        </ul>
+        <div class="warn-b">⚠️ <strong>Golpistas perto da torre:</strong> Pessoas com pulseiras "gratuitas" ou abaixo-assinados são golpes. Diga "Non, merci" e siga sem parar.</div>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">VISITA</span> 🗼 Torre Eiffel · 2–3 horas</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Com ingresso online: fila <em>"Billet coupe-file"</em> — entrada direta, sem fila longa.</span></li>
+          <li><span class="step-num">2</span><span><strong>Pilares:</strong> Ingresso do Cume (Sommet) → pilar <strong>Sul (Sud)</strong>. Para o 2.º andar → qualquer pilar.</span></li>
+          <li><span class="step-num">3</span><span>Suba de elevador ao 2.º andar → segundo elevador ao cume (3.º andar, 276m). Vista de 360° de Paris.</span></li>
+          <li><span class="step-num">4</span><span>1.º andar tem piso de <strong>vidro transparente</strong> onde olha para baixo — impressionante!</span></li>
+          <li><span class="step-num">5</span><span>Ao descer, use as escadas (do 2.º ao 1.º andar) — sem fila e muito mais divertido.</span></li>
+        </ul>
+        <div class="info-b">ℹ️ Final de tarde (16h–19h) = luz dourada do pôr do sol. Temperatura mais fria no topo — leve uma camisa de manga longa.</div>
+      </div>
+    </div>
+
+    <!-- FOTO SENA NOITE -->
+    <div class="spot-photo-wrap">
+      <img data-wiki="Seine" data-wiki-size="1200" src="" style="display:none" alt="Rio Sena">
+      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#0d1b2a,#1a3366)">⛵</div>
+      <div class="spot-photo-label">⛵ Cruzeiro Noturno no Rio Sena</div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header walk-h"><span class="mode-badge walk-badge">A PÉ</span> Torre Eiffel → Embarque do Cruzeiro · ~5 min</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Saindo da Torre, vire em direção ao Rio Sena (lado norte).</span></li>
+          <li><span class="step-num">2</span><span>Desça até a beira do rio — <strong>Port de la Bourdonnais</strong>. Verá os barcos turísticos atracados.</span></li>
+          <li><span class="step-num">3</span><span>Procure o guichê da <strong>Bateaux Parisiens</strong> ou <strong>Vedettes de Paris</strong>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">NOITE</span> ⛵ Cruzeiro no Rio Sena · ~1 hora · 21h30</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Embarque no horário do ingresso. Sente-se do <strong>lado esquerdo</strong> na ida — vista da Torre Eiffel.</span></li>
+          <li><span class="step-num">2</span><span>O barco passa pelo Louvre, Notre-Dame, Île Saint-Louis e Museu d'Orsay — todos iluminados.</span></li>
+          <li><span class="step-num">3</span><span>A Torre pisca por <strong>5 minutos a cada hora cheia</strong> (até meia-noite) — prepare a câmera!</span></li>
+        </ul>
+        <div class="tip-b">💡 Leve uma camada extra de roupa — venta no rio à noite. Comentários em vários idiomas (incluindo português em alguns barcos).</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DIA 2 · 24/06
+═══════════════════════════════════════ -->
+<div class="day-row">
+<button class="day-btn" onclick="openDay('d2',this)">
+  <div class="day-badge"><span class="dn">DIA</span><span class="dd">2</span><span class="dm">24/06</span></div>
+  <div class="day-mid">
+    <h3>🏰 Versalhes · ⛪ Notre-Dame · 👑 Coroa · 🍫 Le Nesle</h3>
+    <p>Sexta-feira · Coroa de Cristo exposta das 15h–18h30</p>
+  </div>
+  <div class="day-thumb-wrap">
+    <img data-wiki="Palace of Versailles" src="" style="display:none" alt="Versalhes">
+    <div class="thumb-fb" style="background:#4a148c;">🏰</div>
+  </div>
+  <div class="day-arr">›</div>
+</button>
+<div class="day-content" id="content-d2">
+
+  <div class="map-wrap">
+    <div id="map2" class="map-div"></div>
+    <div class="map-legend">
+      <div class="ml-row"><span class="ml-dot" style="background:#1b3568"></span> Estação RER</div>
+      <div class="ml-row"><span class="ml-dot" style="background:var(--gold)"></span> Atração</div>
+      <div class="ml-row"><span class="ml-line" style="background:var(--rerc)"></span> RER C</div>
+      <div class="ml-row"><span class="ml-dash" style="border-color:var(--walk)"></span> A pé</div>
+    </div>
+  </div>
+
+  <div class="steps">
+
+    <div class="ticket-box">
+      <h4>🎫 Bilhetes para hoje — já comprou online?</h4>
+      <ul>
+        <li>🏰 <span><strong>Versalhes</strong> → chateauversailles.fr · a partir de €21,50</span></li>
+        <li>⛪ <span><strong>Notre-Dame</strong> → notredamedeparis.fr · slot gratuito sexta 14h30–15h</span></li>
+        <li>🚄 <span><strong>RER C Versalhes</strong> → zona 1-4 · ~€4,35/trecho · compre na máquina</span></li>
+      </ul>
+    </div>
+
+    <!-- FOTO VERSALHES -->
+    <div class="spot-photo-wrap">
+      <img data-wiki="Palace of Versailles" data-wiki-size="1200" src="" style="display:none" alt="Versalhes">
+      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#4a148c,#7b1fa2)">🏰</div>
+      <div class="spot-photo-label">🏰 Palácio de Versalhes — Partida às 7h30!</div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header rerc-h"><span class="mode-badge rerc-badge">RER C</span> Hotel → Versalhes · ~45 min · direto! · Saia às 7h30</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Caminhe ~6 min até a estação <strong class="sta">Champ de Mars–Tour Eiffel (RER C)</strong> — ao lado da Torre, na beira do rio.</span></li>
+          <li><span class="step-num">2</span><span>Na máquina: escolha inglês (bandeira britânica) → selecione <strong>"Versailles-Château Rive Gauche"</strong> como destino → zona 1-4. Passe pela catraca e desça à plataforma.</span></li>
+          <li><span class="step-num">3</span><span>Procure no painel: trem com destino <span class="dir-box">VERSAILLES-CHÂTEAU RIVE GAUCHE</span>. Sente e relaxe — ~40 minutos.</span></li>
+          <li><span class="step-num">4</span><span>Desça na última parada: <strong class="sta">Versailles-Château Rive Gauche</strong>. Use o bilhete para sair pela catraca. Siga os turistas (~10 min a pé até o portão).</span></li>
+        </ul>
+        <div class="warn-b">⚠️ <strong>Bilhete especial!</strong> O bilhete normal do metro NÃO é válido para Versalhes. Compre o de zona 1-4 (~€4,35). Guarde o bilhete para sair em Versalhes — há catraca na saída também!</div>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">VISITA</span> 🏰 Palácio de Versalhes · 9h–13h (4 horas)</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Com ingresso online: fila <em>"Billet Internet"</em> — muito mais rápida. Mostre QR Code.</span></li>
+          <li><span class="step-num">2</span><span>Roteiro essencial: ① <strong>Galeria dos Espelhos</strong> (73m, 357 espelhos — o destaque absoluto) ② Apartamentos do Rei ③ Apartamentos da Rainha ④ Jardins.</span></li>
+          <li><span class="step-num">3</span><span>Vá à Galeria dos Espelhos <strong>antes das 11h</strong> — depois enche muito. Pegue o mapa gratuito na entrada.</span></li>
+        </ul>
+        <div class="tip-b">💡 Almoço em Versalhes: há lanchonetes dentro do complexo. Ou volte a Paris às 13h para almoçar perto de Notre-Dame — muito melhor e mais barato.</div>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header rerc-h"><span class="mode-badge rerc-badge">RER C</span> Versalhes → Saint-Michel-Notre-Dame · ~45 min</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Volte à estação <strong class="sta">Versailles-Château Rive Gauche</strong>. Compre bilhete de volta zona 1-4.</span></li>
+          <li><span class="step-num">2</span><span>Pegue trem direção <span class="dir-box">PARIS</span>. <strong>Não desça no Musée d'Orsay</strong> — fique mais 2 paradas.</span></li>
+          <li><span class="step-num">3</span><span>Paradas: … → Invalides → Musée d'Orsay → <strong class="sta">Saint-Michel–Notre-Dame</strong>. Desça aqui.</span></li>
+          <li><span class="step-num">4</span><span>Na saída, você estará no Quartier Latin com Notre-Dame a 3 min a pé. Almoço no <strong>Boulevard Saint-Germain</strong>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FOTO NOTRE DAME -->
+    <div class="spot-photo-wrap">
+      <img data-wiki="Notre-Dame de Paris" data-wiki-size="1200" src="" style="display:none" alt="Notre-Dame">
+      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#1a3a6b,#2d5490)">⛪</div>
+      <div class="spot-photo-label">⛪ Notre-Dame de Paris · 👑 Coroa de Cristo às 15h</div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">IMPORTANTE</span> 👑 Como entrar para a Coroa de Cristo</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>A <strong>Coroa de Cristo</strong> fica exposta toda sexta-feira das <strong>15h às 18h30</strong>. Entrada gratuita — mas precisa estar dentro da catedral nessa janela.</span></li>
+          <li><span class="step-num">2</span><span><strong>Recomendado:</strong> Reserve slot gratuito em <em>notredamedeparis.fr</em> para 14h30 ou 15h. Mostre QR Code — entrada direta, sem fila.</span></li>
+          <li><span class="step-num">3</span><span>Sem reserva: fila na fachada central (Portal do Juízo Final). Chegue às 14h30. Pode demorar 20–40 min nos dias movimentados.</span></li>
+          <li><span class="step-num">4</span><span>Dentro: siga para o altar central. A relíquia ficará num relicário especial. É um momento muito solene — respeite o silêncio.</span></li>
+          <li><span class="step-num">5</span><span>Se quiser, fique para a <strong>Missa das 18h</strong> — experiência única numa catedral gótica recém-restaurada.</span></li>
+        </ul>
+        <div class="warn-b">⚠️ Confirme a ostensão em <em>notredamedeparis.fr</em> na semana da viagem — pode haver ajuste por data litúrgica. No calendário normal, sexta 15h é o horário certo.</div>
+        <div class="fr-say">
+          <div class="fr-lbl">Se precisar perguntar onde fica a Coroa</div>
+          <div class="fr-txt">"Où est exposée la Couronne d'Épines ?"</div>
+          <div class="fr-pr">Oo ay ex-po-ZAY la koo-RON day-PEEN?</div>
+          <div class="fr-pt">= Onde está exposta a Coroa de Espinhos?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">VISITA</span> ⛪ Notre-Dame de Paris · 15h–17h</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>A catedral reabriu em <strong>dezembro de 2024</strong> completamente restaurada. Pedras mais claras, vitrais reluzentes, interior renovado — impressionante.</span></li>
+          <li><span class="step-num">2</span><span>Admire: os <strong>três rosáceos</strong> (janelas circulares coloridas do séc. XIII), o <strong>órgão</strong> (um dos maiores do mundo) e as <strong>abóbadas góticas</strong> a 33m de altura.</span></li>
+          <li><span class="step-num">3</span><span>Torres e Cruz da flecha: verifique disponibilidade em <em>notredamedeparis.fr</em> — sendo liberado gradualmente, pode exigir reserva e ingresso.</span></li>
+        </ul>
+        <div class="info-b">ℹ️ A catedral fica na Île de la Cité — uma ilha no meio do Rio Sena. Após a visita, caminhe pelas margens para ver as torres refletidas na água.</div>
+      </div>
+    </div>
+
+    <!-- FOTO LE NESLE -->
+    <div class="spot-photo-wrap">
+      <img data-wiki="Saint-Germain-des-Prés" data-wiki-size="1200" src="" style="display:none" alt="Saint-Germain">
+      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#4a148c,#6a1b9a)">🍫</div>
+      <div class="spot-photo-label">🍫 Le Nesle · O Bolo da Matilda · Saint-Germain-des-Prés</div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header walk-h"><span class="mode-badge walk-badge">A PÉ</span> Notre-Dame → Le Nesle · ~10 min · 700 m</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Saia da catedral pelo lado sul e desça à margem esquerda do Sena.</span></li>
+          <li><span class="step-num">2</span><span>Atravesse o <strong>Pont Saint-Michel</strong> ou o <strong>Petit Pont</strong> para a margem sul.</span></li>
+          <li><span class="step-num">3</span><span>Caminhe pela Rue de la Huchette ou Boulevard Saint-Michel por 2–3 min, depois vire à esquerda pela <strong>Rue de Nesle</strong>. Le Nesle está no número <strong>32</strong>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">PARADA</span> 🍫 Le Nesle — O Bolo da Matilda · 17h–18h</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Crêperie e salão de chá no coração de <strong>Saint-Germain-des-Prés</strong> — o bairro de Hemingway, Sartre e Simone de Beauvoir.</span></li>
+          <li><span class="step-num">2</span><span><strong>O ritual:</strong> o bolo de chocolate é servido e o garçom despeja a <em>cobertura quente de chocolate</em> ao vivo na mesa. O chocolate escorre pelo bolo — exatamente como no filme Matilda!</span></li>
+          <li><span class="step-num">3</span><span>Avise que é a primeira vez — eles adoram fazer o ritual para iniciantes.</span></li>
+        </ul>
+        <div class="fr-say">
+          <div class="fr-lbl">Para pedir</div>
+          <div class="fr-txt">"Le gâteau au chocolat chaud, s'il vous plaît — c'est ma première fois !"</div>
+          <div class="fr-pr">Luh gah-TOH oh sho-ko-LAH shoh, seel voo PLAY — say ma pruh-MYAIR fwa!</div>
+          <div class="fr-pt">= O bolo com chocolate quente, por favor — é a minha primeira vez!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header rerc-h"><span class="mode-badge rerc-badge">RER C</span> Le Nesle → Hotel · ~25 min · chegada ~18h30–19h ✅</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Caminhe ~5 min de volta à estação <strong class="sta">Saint-Michel–Notre-Dame (RER C)</strong>.</span></li>
+          <li><span class="step-num">2</span><span>Plataforma RER C direção <span class="dir-box">VERSAILLES</span> ou <span class="dir-box">PONTOISE</span> (sentido oposto ao que veio).</span></li>
+          <li><span class="step-num">3</span><span>Paradas: Saint-Michel → Musée d'Orsay → Invalides → Pont de l'Alma → <strong class="sta">Champ de Mars–Tour Eiffel</strong>. Desça aqui. Hotel a 5 min a pé.</span></li>
+        </ul>
+        <div class="tip-b">💡 Neste trecho dentro de Paris, use bilhete de metro comum (zona 1) — não precisa do bilhete especial de Versalhes.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DIA 3 · 25/06
+═══════════════════════════════════════ -->
+<div class="day-row">
+<button class="day-btn" onclick="openDay('d3',this)">
+  <div class="day-badge"><span class="dn">DIA</span><span class="dd">3</span><span class="dm">25/06</span></div>
+  <div class="day-mid">
+    <h3>🖼️ Louvre · ⭐ Arco do Triunfo · Champs-Élysées · Partida</h3>
+    <p>Manhã cheia — saia às 9h! · Tarde no aeroporto</p>
+  </div>
+  <div class="day-thumb-wrap">
+    <img data-wiki="Louvre" src="" style="display:none" alt="Louvre">
+    <div class="thumb-fb" style="background:#c8952a;">🖼️</div>
+  </div>
+  <div class="day-arr">›</div>
+</button>
+<div class="day-content" id="content-d3">
+
+  <div class="map-wrap">
+    <div id="map3" class="map-div"></div>
+    <div class="map-legend">
+      <div class="ml-row"><span class="ml-dot" style="background:#1b3568"></span> Hotel / Metro</div>
+      <div class="ml-row"><span class="ml-dot" style="background:var(--gold)"></span> Atração</div>
+      <div class="ml-row"><span class="ml-line" style="background:var(--l6)"></span> Linha 6</div>
+      <div class="ml-row"><span class="ml-line" style="background:var(--l1)"></span> Linha 1</div>
+      <div class="ml-row"><span class="ml-dash" style="border-color:var(--walk)"></span> A pé</div>
+    </div>
+  </div>
+
+  <div class="steps">
+
+    <!-- FOTO LOUVRE -->
+    <div class="spot-photo-wrap">
+      <img data-wiki="Louvre" data-wiki-size="1200" src="" style="display:none" alt="Louvre">
+      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#c8952a,#8a6510)">🖼️</div>
+      <div class="spot-photo-label">🖼️ Museu do Louvre · Pirâmide de Vidro</div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header metro-h"><span class="mode-badge" style="background:var(--l6);color:#fff">LINHA 6</span> Hotel → Louvre · Linha 6 + Linha 1 · ~20 min</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Caminhe ~5 min à estação <strong class="sta">Bir-Hakeim</strong> <span class="ml-tag t6">6</span> (sob a ponte de ferro com trilhos do metro). Saia do hotel às <strong>8h45</strong>.</span></li>
+          <li><span class="step-num">2</span><span>Linha 6 direção <span class="dir-box">CHARLES DE GAULLE-ÉTOILE</span> · 4 paradas. <em>(O metro passa pela ponte com vista da Torre Eiffel — fique na janela!)</em></span></li>
+          <li><span class="step-num">3</span><span>Em <strong class="sta">Charles de Gaulle-Étoile</strong>: siga placas de <strong>Correspondance</strong> para a <span class="ml-tag t1">1</span> <strong>Linha 1</strong>.</span></li>
+          <li><span class="step-num">4</span><span>Linha 1 direção <span class="dir-box">CHÂTEAU DE VINCENNES</span> · 6 paradas: … → Concorde → Tuileries → <strong class="sta">Palais Royal–Musée du Louvre</strong>. Saída "Musée du Louvre" → você sobe na praça da Pirâmide.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">VISITA</span> 🖼️ Museu do Louvre · 9h–11h (2 horas focadas)</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span><strong>Entrada pela Pirâmide de Vidro.</strong> Fila rápida: <em>"Billet Internet"</em>. Pegue mapa gratuito (disponível em português).</span></li>
+          <li><span class="step-num">2</span><span><strong>Mona Lisa · Ala Denon · 1.º andar · Sala 711:</strong> Siga os painéis "Mona Lisa". A pintura fica no fundo da sala, protegida por vidro. É menor do que imagina (77×53cm) — mas estar diante do original de Da Vinci é emocionante.</span></li>
+          <li><span class="step-num">3</span><span><strong>Vênus de Milo · Ala Sully · Piso térreo · Sala 346:</strong> Estátua grega sem braços. Muito mais impressionante ao vivo.</span></li>
+          <li><span class="step-num">4</span><span><strong>Vitória de Samotrácia · Ala Denon · Escadaria Daru:</strong> Estátua com asas, sem cabeça — espetacular no alto da escadaria.</span></li>
+        </ul>
+        <div class="tip-b">💡 Roteiro 2h: Mona Lisa (20 min) → Vênus de Milo (15 min) → Vitória de Samotrácia (15 min) → explore à vontade. O Louvre tem 35.000 obras — não tente ver tudo!</div>
+      </div>
+    </div>
+
+    <!-- FOTO ARCO DO TRIUNFO -->
+    <div class="spot-photo-wrap">
+      <img data-wiki="Arc de Triomphe" data-wiki-size="1200" src="" style="display:none" alt="Arco do Triunfo">
+      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#5a0000,#8b0000)">⭐</div>
+      <div class="spot-photo-label">⭐ Arco do Triunfo · Vista de 360° · 284 degraus</div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header metro-h"><span class="mode-badge" style="background:var(--l1);color:#fff">LINHA 1</span> Louvre → Arco do Triunfo · ~10 min · 6 paradas</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Volte à estação <strong class="sta">Palais Royal–Musée du Louvre</strong> <span class="ml-tag t1">1</span>.</span></li>
+          <li><span class="step-num">2</span><span>Linha 1 direção <span class="dir-box">LA DÉFENSE</span> (sentido oposto ao que veio) · 6 paradas: → Tuileries → Concorde → Champs-Élysées-Clemenceau → Franklin D. Roosevelt → George V → <strong class="sta">Charles de Gaulle-Étoile</strong>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">VISITA</span> ⭐ Arco do Triunfo · 11h15–13h</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span><strong>NUNCA atravesse a rotatória a pé!</strong> 12 avenidas, tráfego intenso. Use as <strong>passagens subterrâneas</strong> — desça as escadas nas faixas de pedestres ao redor da praça.</span></li>
+          <li><span class="step-num">2</span><span>No subsolo: siga indicações para a entrada do Arco. A bilheteria fica no túnel. Com ingresso online, mostre QR Code.</span></li>
+          <li><span class="step-num">3</span><span><strong>284 degraus</strong> sem elevador. Nas paredes: nomes de batalhas napoleônicas gravados em pedra.</span></li>
+          <li><span class="step-num">4</span><span><strong>No topo (50m):</strong> Vista de 360° — Torre Eiffel de um lado, 12 bulevares irradiando como estrela (<em>étoile</em>) de outro. Incrível!</span></li>
+          <li><span class="step-num">5</span><span>Embaixo do Arco: <strong>Chama Eterna</strong> do Soldado Desconhecido, acesa desde 1921.</span></li>
+        </ul>
+        <div class="warn-b">⚠️ Saída 1 do metro te leva direto às passagens subterrâneas. Não saia pelas saídas para as avenidas — vai se confundir no tráfego.</div>
+      </div>
+    </div>
+
+    <!-- FOTO CHAMPS-ÉLYSÉES -->
+    <div class="spot-photo-wrap">
+      <img data-wiki="Champs-Élysées" data-wiki-size="1200" src="" style="display:none" alt="Champs-Élysées">
+      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#1b3568,#2a4f8a)">🛍️</div>
+      <div class="spot-photo-label">🛍️ Avenue des Champs-Élysées</div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header walk-h"><span class="mode-badge walk-badge">A PÉ</span> Arco → Champs-Élysées → Almoço · 13h–14h30</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Do Arco, siga a <strong>Avenue des Champs-Élysées</strong> em direção sudeste — a avenida mais famosa parte do próprio Arco.</span></li>
+          <li><span class="step-num">2</span><span>1,9 km de lojas, cafés, cinemas e terraços. Lojas acessíveis (Zara, farmácias) e luxo lado a lado.</span></li>
+          <li><span class="step-num">3</span><span>Almoce num dos cafés de terraço — peça: <em>"Un café crème, s'il vous plaît"</em> (Uhn ka-FAY krem, seel voo PLAY) = café com leite.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header rerc-h"><span class="mode-badge rerc-badge">PARTIDA</span> ✈️ Hotel → Aeroporto · saia 2h30 antes do voo</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Volte ao hotel: Linha 6 de <strong class="sta">Charles de Gaulle-Étoile</strong> direção <span class="dir-box">NATION</span> → 4 paradas → <strong class="sta">Bir-Hakeim</strong> (hotel a pé).</span></li>
+        </ul>
+        <div class="divider">AEROPORTO CDG (Charles de Gaulle)</div>
+        <ul>
+          <li><span class="step-num">1</span><span>RER C de <strong class="sta">Champ de Mars</strong> → <strong class="sta">Saint-Michel-Notre-Dame</strong> → troca para <span class="ml-tag" style="background:#1976d2;border-radius:3px">B</span> <strong>RER B</strong> direção <span class="dir-box">AÉROPORT CDG 2</span> → 35–40 min. <strong>Total: ~60 min.</strong> Bilhete: ~€11,80.</span></li>
+        </ul>
+        <div class="divider">AEROPORTO ORLY (ORY)</div>
+        <ul>
+          <li><span class="step-num">1</span><span>Linha 6 <strong class="sta">Bir-Hakeim</strong> direção <span class="dir-box">NATION</span> → <strong class="sta">Montparnasse-Bienvenüe</strong> (6 paradas) → <strong>Orlybus</strong> direto para Orly (~30 min). <strong>Total: ~55 min.</strong></span></li>
+        </ul>
+        <div class="warn-b">⚠️ Parta do hotel com pelo menos <strong>2h30 de antecedência</strong>. Não arrisque — atrasos no trem e filas na segurança são comuns.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="bon">Boa viagem! Bon voyage! 🗼</div>
+  Guia criado para a viagem de 23–25 junho 2026 · Hotel Ibis próximo à Torre Eiffel<br>
+  Preços e horários sujeitos a alteração — confirme nos sites oficiais antes de viajar
+</div>
+
+<script>
+var maps={};
+var L1='#f5a000',L4='#a0006e',L6='#5fa832',RC='#cc0000',WALK='#2e7d32',NAVY='#1b3568',GOLD='#c8a030';
+
+/* ── Wikipedia photo loader ── */
+function wikiPhoto(article, onUrl){
+  fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(article))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var url=(d.originalimage||d.thumbnail||{}).source||null;
+      if(url) onUrl(url);
+    }).catch(function(){});
+}
+function scaleWiki(url,w){
+  return url.replace(/\/\d+px-/,'/'+w+'px-');
+}
+function applyWikiImg(img,article,size){
+  wikiPhoto(article,function(url){
+    var sized=scaleWiki(url,size||640);
+    img.src=sized;
+    img.onload=function(){
+      img.style.display='block';
+      var fb=img.nextElementSibling;
+      if(fb&&fb.classList.contains('thumb-fb')||fb&&fb.classList.contains('spot-photo-fb'))
+        fb.style.display='none';
+    };
+    img.onerror=function(){
+      img.src=url; // fallback to original size
+      img.onload=function(){
+        img.style.display='block';
+        var fb=img.nextElementSibling;
+        if(fb) fb.style.display='none';
+      };
+    };
+  });
+}
+document.addEventListener('DOMContentLoaded',function(){
+  /* All tagged images */
+  document.querySelectorAll('img[data-wiki]').forEach(function(img){
+    var art=img.getAttribute('data-wiki');
+    var sz=parseInt(img.getAttribute('data-wiki-size')||'640');
+    applyWikiImg(img,art,sz);
+  });
+});
+
+function mkIcon(e,c){
+  return L.divIcon({html:'<div style="background:'+c+';color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.4);border:2px solid #fff">'+e+'</div>',className:'',iconAnchor:[14,14],popupAnchor:[0,-16]});
+}
+function mkSt(l,c){
+  return L.divIcon({html:'<div style="background:'+c+';color:#fff;border-radius:3px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;box-shadow:0 1px 4px rgba(0,0,0,.4);border:1.5px solid #fff">'+l+'</div>',className:'',iconAnchor:[10,10],popupAnchor:[0,-12]});
+}
+
+function tog(id,btn){
+  var p=document.getElementById('panel-'+id);
+  p.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+function openDay(id,btn){
+  var c=document.getElementById('content-'+id);
+  var isOpen=c.classList.contains('open');
+  document.querySelectorAll('.day-content').forEach(function(x){x.classList.remove('open');});
+  document.querySelectorAll('.day-btn').forEach(function(x){x.classList.remove('open');});
+  if(!isOpen){
+    c.classList.add('open');
+    btn.classList.add('open');
+    setTimeout(function(){initMap(id);},60);
+  }
+}
+
+function initMap(id){
+  if(maps[id]){maps[id].invalidateSize();return;}
+  var tiles='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  var attr='© OpenStreetMap';
+
+  if(id==='d1'){
+    var m=L.map('map1',{zoomControl:true}).setView([48.857,2.293],15);
+    L.tileLayer(tiles,{attribution:attr,maxZoom:19}).addTo(m);
+    var hotel=[48.8534,2.2965],eiffel=[48.8584,2.2945],boat=[48.8571,2.2953];
+    L.marker(hotel,{icon:mkIcon('🏨',NAVY)}).addTo(m).bindPopup('<b>Hotel Ibis</b>');
+    L.marker(eiffel,{icon:mkIcon('🗼',GOLD)}).addTo(m).bindPopup('<b>① Torre Eiffel</b><br>~9 min a pé do hotel');
+    L.marker(boat,{icon:mkIcon('⛵','#1565c0')}).addTo(m).bindPopup('<b>② Cruzeiro Sena</b><br>Port de la Bourdonnais<br>~5 min a pé da torre');
+    L.marker([48.8533,2.2892],{icon:mkSt('6',L6)}).addTo(m).bindPopup('<b>Metro Bir-Hakeim</b><br>Linha 6');
+    L.polyline([hotel,eiffel],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
+    L.polyline([eiffel,boat],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
+    maps[id]=m;
+  }
+
+  if(id==='d2'){
+    var m=L.map('map2',{zoomControl:true}).setView([48.853,2.340],15);
+    L.tileLayer(tiles,{attribution:attr,maxZoom:19}).addTo(m);
+    var rerc1=[48.8552,2.2960],sm=[48.8528,2.3466],notre=[48.8530,2.3499],lenesle=[48.8527,2.3394];
+    L.marker(rerc1,{icon:mkSt('C',RC)}).addTo(m).bindPopup('<b>RER C Champ de Mars</b><br>Saída → Versalhes (~40 min)');
+    L.marker(sm,{icon:mkSt('C',RC)}).addTo(m).bindPopup('<b>RER C Saint-Michel-Notre-Dame</b><br>← Chegada de Versalhes + volta ao hotel');
+    L.marker(notre,{icon:mkIcon('⛪',GOLD)}).addTo(m).bindPopup('<b>① Notre-Dame</b><br>👑 Coroa 15h–18h30 · Entrada gratuita');
+    L.marker(lenesle,{icon:mkIcon('🍫','#4a148c')}).addTo(m).bindPopup('<b>② Le Nesle</b><br>32 Rue de Nesle<br>O Bolo da Matilda!');
+    L.polyline([sm,notre],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
+    L.polyline([notre,[48.8527,2.3467],[48.8533,2.3460],lenesle],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
+    L.polyline([lenesle,sm],{color:RC,weight:2,dashArray:'4,6',opacity:.5}).addTo(m);
+    maps[id]=m;
+  }
+
+  if(id==='d3'){
+    var m=L.map('map3',{zoomControl:true}).setView([48.863,2.308],13);
+    L.tileLayer(tiles,{attribution:attr,maxZoom:19}).addTo(m);
+    var hotel=[48.8534,2.2965],birH=[48.8533,2.2892],cdge=[48.8738,2.2951],louvre=[48.8606,2.3376],arc=[48.8738,2.2950],champ=[48.8698,2.3080];
+    L.marker(hotel,{icon:mkIcon('🏨',NAVY)}).addTo(m).bindPopup('<b>Hotel Ibis</b>');
+    L.marker(birH,{icon:mkSt('6',L6)}).addTo(m).bindPopup('<b>Bir-Hakeim · Linha 6</b><br>→ CdG-Étoile → troca L1 → Louvre');
+    L.marker(louvre,{icon:mkIcon('🖼️',GOLD)}).addTo(m).bindPopup('<b>① Louvre</b><br>9h–11h · Mona Lisa · Sala 711');
+    L.marker(arc,{icon:mkIcon('⭐',GOLD)}).addTo(m).bindPopup('<b>② Arco do Triunfo</b><br>11h15–13h · 284 degraus');
+    L.marker(champ,{icon:mkIcon('🛍️',GOLD)}).addTo(m).bindPopup('<b>③ Champs-Élysées</b><br>Almoço · lojas · despedida');
+    L.polyline([hotel,birH],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
+    L.polyline([birH,[48.8612,2.2873],[48.8656,2.2877],[48.8700,2.2926],cdge],{color:L6,weight:3}).addTo(m);
+    L.polyline([cdge,[48.8656,2.3210],[48.8638,2.3270],[48.8638,2.3368],louvre],{color:L1,weight:3}).addTo(m);
+    L.polyline([louvre,[48.8638,2.3368],[48.8638,2.3210],cdge],{color:L1,weight:2,opacity:.45,dashArray:'8,4'}).addTo(m);
+    L.polyline([arc,[48.8718,2.2980],[48.8708,2.3020],champ],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
+    maps[id]=m;
+  }
+}
+</script>
+</body>
+</html>
