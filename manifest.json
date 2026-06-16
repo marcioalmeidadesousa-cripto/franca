@@ -8,8 +8,8 @@
   "theme_color": "#1b3568",
   "icons": [
     {
-      "src": "eiffel-header.jpg",
-      "sizes": "612x612",
+      "src": "eiffel-icon.jpg",
+      "sizes": "any",
       "type": "image/jpeg",
       "purpose": "any maskable"
     }
