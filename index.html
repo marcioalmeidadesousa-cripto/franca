@@ -123,42 +123,54 @@ body{font-family:'Segoe UI',system-ui,sans-serif;
 
 /* ── DAY CARDS (collapsed) ── */
 .day-row{
-  margin:8px 10px;
+  margin:10px 10px;
   border-radius:22px;
   overflow:hidden;
-  box-shadow:0 6px 28px rgba(0,0,0,.45);
+  box-shadow:0 10px 40px rgba(0,0,0,.55);
 }
-.day-btn{width:100%;border:none;
-  background:rgba(255,255,255,.9);
+.day-btn{
+  width:100%;border:none;padding:0;
+  cursor:pointer;display:block;text-align:left;
+}
+.dcard-photo{
+  height:155px;
+  background:#1b3568 center/cover no-repeat;
+  position:relative;
+  transition:height .35s ease;
+}
+.day-btn.open .dcard-photo{height:130px;}
+.dcard-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.82) 100%);
+  padding:.85rem .95rem .8rem;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.dcard-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.dcard-pill{
+  background:rgba(255,255,255,.18);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  padding:0;display:flex;align-items:stretch;cursor:pointer;text-align:left;
-  transition:background .2s;}
-.day-btn:hover{background:rgba(245,247,255,.96);}
-.day-btn.open{background:rgba(238,243,255,.98);}
-.day-badge{background:var(--navy);color:#fff;min-width:66px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:.6rem .3rem;flex-shrink:0;}
-.day-badge .dn{font-size:.62rem;font-weight:800;text-transform:uppercase;
-  letter-spacing:.5px;opacity:.75;}
-.day-badge .dd{font-size:.95rem;font-weight:900;}
-.day-badge .dm{font-size:.58rem;opacity:.65;margin-top:.1rem;}
-.day-mid{flex:1;padding:.65rem .7rem;display:flex;flex-direction:column;justify-content:center;}
-.day-mid h3{font-size:.87rem;font-weight:800;color:var(--navy);line-height:1.3;margin-bottom:.2rem;}
-.day-mid p{font-size:.72rem;color:var(--muted);line-height:1.4;}
-.day-thumb-wrap{width:76px;height:76px;flex-shrink:0;overflow:hidden;align-self:center;
-  margin:.5rem .4rem .5rem 0;border-radius:16px;
-  box-shadow:0 2px 10px rgba(0,0,0,.18);}
-.day-thumb-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
-.day-thumb-wrap .thumb-fb{width:100%;height:100%;display:flex;align-items:center;
-  justify-content:center;font-size:2.2rem;}
-.day-arr{display:flex;align-items:center;padding-right:.6rem;color:#bbb;
-  font-size:1.3rem;transition:transform .3s;flex-shrink:0;}
+  border:1px solid rgba(255,255,255,.35);
+  color:#fff;border-radius:999px;
+  padding:.26rem .72rem;font-size:.66rem;font-weight:800;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.day-arr{
+  color:rgba(255,255,255,.85);font-size:1.4rem;line-height:1;
+  transition:transform .35s;background:rgba(255,255,255,.15);
+  border-radius:50%;width:1.8rem;height:1.8rem;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.25);
+}
 .day-btn.open .day-arr{transform:rotate(90deg);}
+.dcard-bot h3{
+  color:#fff;font-size:1rem;font-weight:900;
+  line-height:1.3;text-shadow:0 1px 8px rgba(0,0,0,.5);
+  margin-bottom:.22rem;
+}
+.dcard-bot p{color:rgba(255,255,255,.72);font-size:.72rem;line-height:1.4;}
 
 /* ── DAY CONTENT (expanded) ── */
-.day-content{display:none;
-  background:rgba(249,251,255,.97);
-  border-top:1px solid rgba(255,255,255,.6);}
+.day-content{display:none;background:#f5f7ff;}
 .day-content.open{display:block;}
 
 /* MAP */
@@ -258,7 +270,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;
 @media(max-width:400px){
   .ph-grid,.ing-grid{grid-template-columns:1fr;}
   .hdr-content h1{font-size:1.6rem;}
-  .day-thumb-wrap{width:60px;height:60px;}
+  .dcard-photo{height:140px;}
+  .dcard-bot h3{font-size:.9rem;}
 }
 </style>
 </head>
@@ -393,16 +406,18 @@ body{font-family:'Segoe UI',system-ui,sans-serif;
 ═══════════════════════════════════════ -->
 <div class="day-row">
 <button class="day-btn" onclick="openDay('d1',this)">
-  <div class="day-badge"><span class="dn">DIA</span><span class="dd">1</span><span class="dm">23/06</span></div>
-  <div class="day-mid">
-    <h3>🗼 Torre Eiffel &amp; Cruzeiro no Sena</h3>
-    <p>Chegada · Torre Eiffel · Cruzeiro noturno no Sena</p>
+  <div class="dcard-photo" data-card-wiki="Eiffel Tower">
+    <div class="dcard-overlay">
+      <div class="dcard-top">
+        <span class="dcard-pill">DIA 1 · 23 Jun</span>
+        <span class="day-arr">›</span>
+      </div>
+      <div class="dcard-bot">
+        <h3>🗼 Torre Eiffel &amp; Cruzeiro no Sena</h3>
+        <p>Chegada · Torre Eiffel · Cruzeiro noturno no Sena</p>
+      </div>
+    </div>
   </div>
-  <div class="day-thumb-wrap">
-    <img data-wiki="Eiffel Tower" src="" style="display:none" alt="Torre Eiffel">
-    <div class="thumb-fb" style="background:#1b3568;">🗼</div>
-  </div>
-  <div class="day-arr">›</div>
 </button>
 <div class="day-content" id="content-d1">
 
@@ -498,16 +513,18 @@ body{font-family:'Segoe UI',system-ui,sans-serif;
 ═══════════════════════════════════════ -->
 <div class="day-row">
 <button class="day-btn" onclick="openDay('d2',this)">
-  <div class="day-badge"><span class="dn">DIA</span><span class="dd">2</span><span class="dm">24/06</span></div>
-  <div class="day-mid">
-    <h3>🏰 Versalhes · ⛪ Notre-Dame · 👑 Coroa · 🍫 Le Nesle</h3>
-    <p>Sexta-feira · Coroa de Cristo exposta das 15h–18h30</p>
+  <div class="dcard-photo" data-card-wiki="Palace of Versailles" style="background-color:#4a148c;">
+    <div class="dcard-overlay">
+      <div class="dcard-top">
+        <span class="dcard-pill">DIA 2 · 24 Jun</span>
+        <span class="day-arr">›</span>
+      </div>
+      <div class="dcard-bot">
+        <h3>🏰 Versalhes · ⛪ Notre-Dame · 👑 Coroa · 🍫 Le Nesle</h3>
+        <p>Sexta-feira · Coroa de Cristo exposta das 15h–18h30</p>
+      </div>
+    </div>
   </div>
-  <div class="day-thumb-wrap">
-    <img data-wiki="Palace of Versailles" src="" style="display:none" alt="Versalhes">
-    <div class="thumb-fb" style="background:#4a148c;">🏰</div>
-  </div>
-  <div class="day-arr">›</div>
 </button>
 <div class="day-content" id="content-d2">
 
@@ -671,16 +688,18 @@ body{font-family:'Segoe UI',system-ui,sans-serif;
 ═══════════════════════════════════════ -->
 <div class="day-row">
 <button class="day-btn" onclick="openDay('d3',this)">
-  <div class="day-badge"><span class="dn">DIA</span><span class="dd">3</span><span class="dm">25/06</span></div>
-  <div class="day-mid">
-    <h3>🖼️ Louvre · ⭐ Arco do Triunfo · Champs-Élysées · Partida</h3>
-    <p>Manhã cheia — saia às 9h! · Tarde no aeroporto</p>
+  <div class="dcard-photo" data-card-wiki="Louvre" style="background-color:#7a5000;">
+    <div class="dcard-overlay">
+      <div class="dcard-top">
+        <span class="dcard-pill">DIA 3 · 25 Jun</span>
+        <span class="day-arr">›</span>
+      </div>
+      <div class="dcard-bot">
+        <h3>🖼️ Louvre · ⭐ Arco do Triunfo · Champs-Élysées · Partida</h3>
+        <p>Manhã cheia — saia às 9h! · Tarde no aeroporto</p>
+      </div>
+    </div>
   </div>
-  <div class="day-thumb-wrap">
-    <img data-wiki="Louvre" src="" style="display:none" alt="Louvre">
-    <div class="thumb-fb" style="background:#c8952a;">🖼️</div>
-  </div>
-  <div class="day-arr">›</div>
 </button>
 <div class="day-content" id="content-d3">
 
@@ -844,7 +863,18 @@ function applyWikiImg(img,article,size){
   });
 }
 document.addEventListener('DOMContentLoaded',function(){
-  /* All tagged images */
+  /* Fotos dos cards dos dias (background-image) */
+  document.querySelectorAll('.dcard-photo[data-card-wiki]').forEach(function(div){
+    var art=div.getAttribute('data-card-wiki');
+    wikiPhoto(art,function(url){
+      var sized=scaleWiki(url,900);
+      var tmp=new Image();
+      tmp.onload=function(){div.style.backgroundImage='url('+sized+')';};
+      tmp.onerror=function(){div.style.backgroundImage='url('+url+')';};
+      tmp.src=sized;
+    });
+  });
+  /* Fotos dos spots dentro dos dias */
   document.querySelectorAll('img[data-wiki]').forEach(function(img){
     var art=img.getAttribute('data-wiki');
     var sz=parseInt(img.getAttribute('data-wiki-size')||'640');
