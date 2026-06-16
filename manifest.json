@@ -1,0 +1,17 @@
+{
+  "name": "Guia Paris 2026",
+  "short_name": "Paris 🗼",
+  "description": "Roteiro família - Marcio, Juliana, Gustavo, Gabriel e Leonardo",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1b3568",
+  "theme_color": "#1b3568",
+  "icons": [
+    {
+      "src": "eiffel-header.jpg",
+      "sizes": "612x612",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
