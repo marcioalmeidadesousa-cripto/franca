@@ -284,7 +284,101 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   .hdr-content h1{font-size:1.7rem;}
   .att-grid{grid-template-columns:1fr 1fr;}
   .day-hdr-info h3{font-size:.8rem;}
+  .docs-grid{grid-template-columns:1fr 1fr;}
 }
+
+/* ── TABS ── */
+.tab-bar{
+  display:flex;background:var(--card);border-bottom:2px solid var(--border);
+  position:sticky;top:0;z-index:500;box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.tab-btn{
+  flex:1;border:none;background:none;padding:.78rem .5rem;font-size:.86rem;
+  font-weight:700;color:var(--muted);cursor:pointer;
+  border-bottom:3px solid transparent;transition:color .2s,border-color .2s;
+}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--navy);}
+
+/* ── DOCUMENTOS ── */
+.docs-wrap{padding:.85rem .75rem 2rem;}
+.docs-section-title{font-size:.72rem;font-weight:700;color:var(--muted);
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem;}
+.docs-upload-row{display:flex;gap:.65rem;margin-bottom:1.1rem;}
+.docs-btn{
+  flex:1;border:none;border-radius:16px;padding:.9rem .5rem;
+  font-size:.8rem;font-weight:700;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:.4rem;
+  transition:opacity .15s;line-height:1.2;
+}
+.docs-btn:active{opacity:.7;}
+.docs-btn-cam{background:var(--navy);color:#fff;}
+.docs-btn-file{background:#f0f4ff;color:var(--navy);border:1.5px solid #c0cff5;}
+.docs-btn-icon{font-size:1.7rem;line-height:1;}
+
+.docs-preview-card{
+  background:var(--card);border-radius:18px;border:1.5px solid var(--border);
+  padding:.9rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(0,0,0,.08);
+}
+.docs-preview-img{width:100%;max-height:240px;object-fit:contain;
+  border-radius:12px;margin-bottom:.7rem;display:block;background:#f8f9fc;}
+.docs-name-row{display:flex;gap:.5rem;align-items:center;}
+.docs-name-input{
+  flex:1;border:1.5px solid var(--border);border-radius:11px;
+  padding:.52rem .75rem;font-size:.84rem;font-family:inherit;
+  outline:none;color:var(--txt);background:#fff;
+}
+.docs-name-input:focus{border-color:var(--navy);}
+.docs-send-btn{
+  background:var(--navy);color:#fff;border:none;border-radius:11px;
+  padding:.52rem 1.1rem;font-size:.82rem;font-weight:700;
+  cursor:pointer;white-space:nowrap;flex-shrink:0;
+}
+.docs-send-btn:disabled{opacity:.45;cursor:default;}
+.docs-status{font-size:.77rem;text-align:center;padding:.45rem .3rem;
+  min-height:1.6rem;color:var(--muted);}
+.docs-status.err{color:#dc2626;}
+.docs-status.ok{color:#16a34a;font-weight:700;}
+
+.docs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+.doc-card{
+  background:var(--card);border-radius:16px;border:1px solid var(--border);
+  overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07);position:relative;
+  cursor:pointer;
+}
+.doc-thumb{width:100%;height:120px;object-fit:cover;display:block;background:#eef1f7;}
+.doc-thumb-pdf{
+  width:100%;height:120px;display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;background:linear-gradient(135deg,#fef3c7,#fde68a);
+}
+.doc-card-info{padding:.5rem .6rem .6rem;}
+.doc-card-name{font-size:.73rem;font-weight:700;color:var(--txt);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.doc-card-date{font-size:.65rem;color:var(--muted);margin-top:.1rem;}
+.doc-del{
+  position:absolute;top:.4rem;right:.4rem;border:none;
+  background:rgba(0,0,0,.55);color:#fff;border-radius:50%;
+  width:24px;height:24px;font-size:.85rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+}
+.doc-del:hover{background:rgba(220,38,38,.85);}
+.docs-empty{text-align:center;color:var(--muted);
+  padding:3rem 1rem 1rem;font-size:.84rem;line-height:2;}
+.docs-empty span{font-size:2.5rem;display:block;margin-bottom:.5rem;}
+
+/* ── LIGHTBOX ── */
+.lb-ov{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);
+  z-index:9999;flex-direction:column;align-items:center;justify-content:center;
+}
+.lb-ov.open{display:flex;}
+.lb-img{max-width:96vw;max-height:86vh;border-radius:12px;object-fit:contain;}
+.lb-x{
+  position:absolute;top:.9rem;right:1rem;background:rgba(255,255,255,.15);
+  border:none;color:#fff;font-size:1.7rem;cursor:pointer;
+  border-radius:50%;width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+}
+.lb-lbl{color:rgba(255,255,255,.65);font-size:.8rem;margin-top:.7rem;}
 </style>
 </head>
 <body>
@@ -299,6 +393,14 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
     <div class="hotel-tag">🏨 Hotel Ibis · Torre Eiffel</div>
   </div>
 </div>
+
+<!-- ═══ ABAS ═══ -->
+<div class="tab-bar">
+  <button class="tab-btn active" id="tb-roteiro" onclick="switchTab('roteiro')">📅 Roteiro</button>
+  <button class="tab-btn" id="tb-docs" onclick="switchTab('docs')">📁 Documentos</button>
+</div>
+
+<div id="tab-roteiro">
 
 <!-- ═══ EMERGÊNCIAS ═══ -->
 <div class="sos-row">
@@ -886,6 +988,57 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   Preços e horários sujeitos a alteração — confirme nos sites oficiais antes de viajar
 </div>
 
+</div><!-- /tab-roteiro -->
+
+<!-- ═══ ABA DOCUMENTOS ═══ -->
+<div id="tab-docs" style="display:none">
+<div class="docs-wrap">
+
+  <p class="docs-section-title">📁 Carteira de documentos da viagem</p>
+
+  <!-- inputs ocultos -->
+  <input id="cam-input" type="file" accept="image/*" capture="environment" style="display:none">
+  <input id="file-input" type="file" accept="image/*,application/pdf" style="display:none">
+
+  <!-- botões de upload -->
+  <div class="docs-upload-row">
+    <button class="docs-btn docs-btn-cam" onclick="document.getElementById('cam-input').click()">
+      <span class="docs-btn-icon">📷</span>Fotografar documento
+    </button>
+    <button class="docs-btn docs-btn-file" onclick="document.getElementById('file-input').click()">
+      <span class="docs-btn-icon">📎</span>Carregar arquivo
+    </button>
+  </div>
+
+  <!-- preview + nome antes de salvar -->
+  <div id="docs-preview-card" class="docs-preview-card" style="display:none">
+    <img id="docs-preview-img" class="docs-preview-img" src="" alt="" style="display:none">
+    <div style="text-align:center;font-size:2.5rem;padding:.5rem 0" id="docs-preview-pdf" style="display:none">📄</div>
+    <div class="docs-name-row">
+      <input id="docs-name-input" class="docs-name-input" type="text" placeholder="Nome (ex: Passaporte Marcio)">
+      <button id="docs-send-btn" class="docs-send-btn" onclick="doUpload()">Salvar</button>
+    </div>
+    <div id="docs-status" class="docs-status"></div>
+  </div>
+
+  <!-- galeria -->
+  <div id="docs-grid" class="docs-grid"></div>
+  <div id="docs-empty" class="docs-empty" style="display:none">
+    <span>📂</span>
+    Nenhum documento salvo ainda.<br>
+    Fotografe passaportes, ingressos, reservas ou bilhetes.
+  </div>
+
+</div>
+</div>
+
+<!-- ═══ LIGHTBOX ═══ -->
+<div class="lb-ov" id="lb-ov" onclick="closeLb(event)">
+  <button class="lb-x" onclick="closeLb()">×</button>
+  <img class="lb-img" id="lb-img" src="" alt="">
+  <div class="lb-lbl" id="lb-lbl"></div>
+</div>
+
 <script>
 var maps={};
 var L1='#f5a000',L4='#a0006e',L6='#5fa832',RC='#cc0000',WALK='#2e7d32',NAVY='#1b3568',GOLD='#c8a030';
@@ -1005,6 +1158,169 @@ function initMap(id){
     L.polyline([louvre,[48.8638,2.3368],[48.8638,2.3270],[48.8638,2.3210],[48.8656,2.3100],champsM],{color:L1,weight:2,opacity:.5,dashArray:'8,4'}).addTo(m);
     maps[id]=m;
   }
+}
+
+/* ══════════════════════════════════
+   ABA TABS
+══════════════════════════════════ */
+function switchTab(t){
+  document.getElementById('tab-roteiro').style.display=t==='roteiro'?'':'none';
+  document.getElementById('tab-docs').style.display=t==='docs'?'':'none';
+  document.getElementById('tb-roteiro').classList.toggle('active',t==='roteiro');
+  document.getElementById('tb-docs').classList.toggle('active',t==='docs');
+  if(t==='docs') loadDocs();
+}
+
+/* ══════════════════════════════════
+   SUPABASE DOCUMENTOS
+══════════════════════════════════ */
+var SB='https://nsvrafhxoktkdqiggipr.supabase.co';
+var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zdnJhZmh4b2t0a2RxaWdnaXByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1ODUyNDUsImV4cCI6MjA5NDE2MTI0NX0.b3oUmPzy96JoEgKSaSLwD6vbIJ0EV8wqvsQfKX6lkww';
+var BKT='franca';
+var sbHdr={'Authorization':'Bearer '+SK};
+var pendingFile=null;
+
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('cam-input').addEventListener('change',function(){
+    if(this.files[0]) handleFileSelect(this.files[0]);
+    this.value='';
+  });
+  document.getElementById('file-input').addEventListener('change',function(){
+    if(this.files[0]) handleFileSelect(this.files[0]);
+    this.value='';
+  });
+});
+
+function handleFileSelect(f){
+  pendingFile=f;
+  var isPdf=f.type==='application/pdf'||f.name.toLowerCase().endsWith('.pdf');
+  var pi=document.getElementById('docs-preview-img');
+  var pp=document.getElementById('docs-preview-pdf');
+  if(isPdf){
+    pi.style.display='none';
+    pp.style.display='block';
+  } else {
+    pp.style.display='none';
+    var reader=new FileReader();
+    reader.onload=function(e){pi.src=e.target.result;pi.style.display='block';};
+    reader.readAsDataURL(f);
+  }
+  var base=f.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ');
+  document.getElementById('docs-name-input').value=base;
+  document.getElementById('docs-send-btn').disabled=false;
+  document.getElementById('docs-status').textContent='';
+  document.getElementById('docs-status').className='docs-status';
+  document.getElementById('docs-preview-card').style.display='block';
+}
+
+function doUpload(){
+  if(!pendingFile) return;
+  var label=(document.getElementById('docs-name-input').value.trim())||pendingFile.name;
+  var ext=(pendingFile.name.match(/\.[^.]+$/)||[''])[0];
+  var safe=label.replace(/[^\wÀ-ɏ ]/g,'').replace(/ +/g,'_').slice(0,80);
+  var path=Date.now()+'_'+safe+ext;
+  var btn=document.getElementById('docs-send-btn');
+  var st=document.getElementById('docs-status');
+  btn.disabled=true;
+  st.textContent='Enviando...';
+  st.className='docs-status';
+  fetch(SB+'/storage/v1/object/'+BKT+'/'+encodeURIComponent(path),{
+    method:'POST',
+    headers:Object.assign({'Content-Type':pendingFile.type||'application/octet-stream','x-upsert':'true'},sbHdr),
+    body:pendingFile
+  }).then(function(r){
+    if(!r.ok) return r.text().then(function(t){throw new Error(t);});
+    return r.json();
+  }).then(function(){
+    st.textContent='Documento salvo com sucesso!';
+    st.className='docs-status ok';
+    pendingFile=null;
+    setTimeout(function(){
+      document.getElementById('docs-preview-card').style.display='none';
+      st.textContent='';
+      loadDocs();
+    },1400);
+  }).catch(function(e){
+    var msg=e.message||'';
+    if(msg.indexOf('violates row-level security')>-1||msg.indexOf('policy')>-1){
+      st.innerHTML='❌ Permissão negada.<br><small>Configure as políticas no Supabase — veja as instruções abaixo.</small>';
+    } else {
+      st.textContent='❌ Erro: '+msg;
+    }
+    st.className='docs-status err';
+    btn.disabled=false;
+  });
+}
+
+function loadDocs(){
+  var grid=document.getElementById('docs-grid');
+  var empty=document.getElementById('docs-empty');
+  grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:1.5rem;font-size:.83rem">Carregando...</div>';
+  empty.style.display='none';
+  fetch(SB+'/storage/v1/object/list/'+BKT,{
+    method:'POST',
+    headers:Object.assign({'Content-Type':'application/json'},sbHdr),
+    body:JSON.stringify({prefix:'',limit:200,offset:0,sortBy:{column:'created_at',order:'desc'}})
+  }).then(function(r){return r.json();})
+  .then(function(items){
+    grid.innerHTML='';
+    if(!items||!items.length){empty.style.display='block';return;}
+    items.forEach(function(item){
+      var name=item.name;
+      var label=name.replace(/^\d+_/,'').replace(/\.[^.]+$/,'').replace(/_/g,' ');
+      var isPdf=name.toLowerCase().endsWith('.pdf');
+      var pub=SB+'/storage/v1/object/public/'+BKT+'/'+encodeURIComponent(name);
+      var ts=item.created_at?new Date(item.created_at).toLocaleDateString('pt-BR'):'';
+      var card=document.createElement('div');
+      card.className='doc-card';
+      if(isPdf){
+        card.innerHTML='<div class="doc-thumb-pdf">📄</div>'
+          +'<div class="doc-card-info"><div class="doc-card-name">'+escHtml(label)+'</div>'
+          +'<div class="doc-card-date">'+ts+'</div></div>';
+        card.addEventListener('click',function(){window.open(pub,'_blank');});
+      } else {
+        card.innerHTML='<img class="doc-thumb" src="'+pub+'" loading="lazy" alt="'+escHtml(label)+'" onerror="this.src=\'\';this.style.background=\'#eef1f7\'">'
+          +'<div class="doc-card-info"><div class="doc-card-name">'+escHtml(label)+'</div>'
+          +'<div class="doc-card-date">'+ts+'</div></div>';
+        card.querySelector('img').addEventListener('click',function(e){e.stopPropagation();openLb(pub,label);});
+      }
+      var del=document.createElement('button');
+      del.className='doc-del';
+      del.title='Apagar';
+      del.textContent='×';
+      del.addEventListener('click',function(e){
+        e.stopPropagation();
+        if(confirm('Apagar "'+label+'"?')) deleteDoc(name);
+      });
+      card.appendChild(del);
+      grid.appendChild(card);
+    });
+  }).catch(function(e){
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:#dc2626;padding:1rem;font-size:.8rem">Erro ao carregar: '+escHtml(e.message)+'</div>';
+  });
+}
+
+function deleteDoc(name){
+  fetch(SB+'/storage/v1/object/'+BKT,{
+    method:'DELETE',
+    headers:Object.assign({'Content-Type':'application/json'},sbHdr),
+    body:JSON.stringify({prefixes:[name]})
+  }).then(function(){loadDocs();})
+  .catch(function(e){alert('Erro ao apagar: '+e.message);});
+}
+
+function openLb(url,lbl){
+  document.getElementById('lb-img').src=url;
+  document.getElementById('lb-lbl').textContent=lbl;
+  document.getElementById('lb-ov').classList.add('open');
+}
+function closeLb(e){
+  if(e&&e.target!==document.getElementById('lb-ov')&&e.target!==document.querySelector('.lb-x')) return;
+  document.getElementById('lb-ov').classList.remove('open');
+  document.getElementById('lb-img').src='';
+}
+function escHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
 </body>
