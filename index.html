@@ -420,29 +420,30 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 <button class="day-hdr-btn" onclick="openDay('d1',this)">
   <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">1</span></div>
   <div class="day-hdr-info">
-    <h3>Torre Eiffel &amp; Cruzeiro no Sena</h3>
-    <p>Chegada · Torre · Cruzeiro noturno</p>
+    <h3>Arco do Triunfo · Torre Eiffel · Cruzeiro</h3>
+    <p>Manhã no Arco · Tarde na Torre · Noite no Sena</p>
   </div>
   <div class="day-thumb">
-    <img data-wiki="Eiffel Tower" alt="Torre Eiffel">
-    <div class="dt-fb">🗼</div>
+    <img data-wiki="Arc de Triomphe" alt="Arco do Triunfo">
+    <div class="dt-fb">⭐</div>
   </div>
   <span class="day-hdr-arr">›</span>
 </button>
 <div class="day-sep"></div>
 <div class="att-grid">
-  <div class="att-tile"><span class="at-icon">🏨</span><span class="at-name">Check-in Hotel</span><span class="at-time">Chegada</span></div>
-  <div class="att-tile"><span class="at-icon">🗼</span><span class="at-name">Torre Eiffel</span><span class="at-time">17h – 20h</span></div>
+  <div class="att-tile"><span class="at-icon">⭐</span><span class="at-name">Arco do Triunfo</span><span class="at-time">10h – 12h</span></div>
+  <div class="att-tile"><span class="at-icon">🛍️</span><span class="at-name">Champs-Élysées</span><span class="at-time">Almoço 12h</span></div>
+  <div class="att-tile"><span class="at-icon">🗼</span><span class="at-name">Torre Eiffel</span><span class="at-time">15h – 18h</span></div>
   <div class="att-tile"><span class="at-icon">⛵</span><span class="at-name">Cruzeiro Sena</span><span class="at-time">21h30</span></div>
-  <div class="att-tile"><span class="at-icon">🌙</span><span class="at-name">Torre pisca!</span><span class="at-time">A cada hora cheia</span></div>
 </div>
 <div class="day-content" id="content-d1">
 
   <div class="map-wrap">
     <div id="map1" class="map-div"></div>
     <div class="map-legend">
-      <div class="ml-row"><span class="ml-dot" style="background:#1b3568"></span> Hotel</div>
+      <div class="ml-row"><span class="ml-dot" style="background:#1b3568"></span> Hotel / Metro</div>
       <div class="ml-row"><span class="ml-dot" style="background:var(--gold)"></span> Atração</div>
+      <div class="ml-row"><span class="ml-line" style="background:var(--l6)"></span> Linha 6</div>
       <div class="ml-row"><span class="ml-dash" style="border-color:var(--walk)"></span> A pé</div>
     </div>
   </div>
@@ -453,8 +454,61 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
       <div class="seg-header spot-h"><span class="mode-badge spot-badge">CHEGADA</span> Check-in no Hotel Ibis</div>
       <div class="seg-body">
         <ul>
-          <li><span class="step-num">1</span><span>Chegue ao hotel, descanse, guarde as malas. O hotel fica a <strong>5–10 min a pé</strong> da Torre Eiffel.</span></li>
-          <li><span class="step-num">2</span><span>Se o quarto não estiver pronto, deixe as malas na recepção. Diga: <em>"Puis-je laisser mes bagages ?"</em> (Pui-jeh lay-SAY may ba-GAJH?)</span></li>
+          <li><span class="step-num">1</span><span>Chegue ao hotel, descanse, guarde as malas. Se o quarto não estiver pronto, deixe as malas na recepção — diga: <em>"Puis-je laisser mes bagages ?"</em> (Pui-jeh lay-SAY may ba-GAJH?)</span></li>
+          <li><span class="step-num">2</span><span>Tome um café rápido e saia em direção ao metro <strong>às 9h30</strong> para chegar no Arco às 10h com pouca fila.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FOTO ARCO DO TRIUNFO -->
+    <div class="spot-photo-wrap">
+      <img data-wiki="Arc de Triomphe" data-wiki-size="1200" src="" style="display:none" alt="Arco do Triunfo">
+      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#5a0000,#8b0000)">⭐</div>
+      <div class="spot-photo-label">⭐ Arco do Triunfo · 284 degraus · Vista de 360°</div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header metro-h"><span class="mode-badge" style="background:var(--l6);color:#fff">LINHA 6</span> Hotel → Arco do Triunfo · ~20 min</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Caminhe ~5 min até <strong class="sta">Bir-Hakeim</strong> <span class="ml-tag t6">6</span> — a estação fica embaixo da ponte de ferro com trilhos visíveis.</span></li>
+          <li><span class="step-num">2</span><span>Linha 6 direção <span class="dir-box">CHARLES DE GAULLE-ÉTOILE</span> · 4 paradas. <em>(Ótima vista da Torre Eiffel pela janela ao cruzar a ponte!)</em></span></li>
+          <li><span class="step-num">3</span><span>Desça em <strong class="sta">Charles de Gaulle-Étoile</strong>. Saída 1 → passagem subterrânea → entrada do Arco.</span></li>
+        </ul>
+        <div class="warn-b">⚠️ <strong>Nunca atravesse a rotatória a pé!</strong> 12 avenidas, tráfego intenso. Use sempre as passagens subterrâneas.</div>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">VISITA</span> ⭐ Arco do Triunfo · 10h–12h</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Com ingresso online: mostre QR Code na bilheteria do túnel subterrâneo.</span></li>
+          <li><span class="step-num">2</span><span><strong>284 degraus</strong> sem elevador — nas paredes, nomes de batalhas napoleônicas gravados em pedra.</span></li>
+          <li><span class="step-num">3</span><span><strong>No topo (50m):</strong> Vista de 360° — Torre Eiffel de um lado, os 12 bulevares irradiando como estrela do outro.</span></li>
+          <li><span class="step-num">4</span><span>Embaixo do Arco: <strong>Chama Eterna</strong> do Soldado Desconhecido, acesa desde 1921.</span></li>
+        </ul>
+        <div class="tip-b">💡 De manhã cedo (10h) tem bem menos gente. A luz da manhã sobre Paris lá do topo é linda.</div>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header walk-h"><span class="mode-badge walk-badge">A PÉ</span> Arco → Champs-Élysées → Almoço · 12h–13h30</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Desça a <strong>Avenue des Champs-Élysées</strong> a partir do Arco — 1,9 km de avenida famosa, lojas, cafés e terraços.</span></li>
+          <li><span class="step-num">2</span><span>Almoce num café de terraço com vista para a avenida. Peça: <em>"Un menu du jour, s'il vous plaît"</em> = prato do dia.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header metro-h"><span class="mode-badge" style="background:var(--l1);color:#fff">LINHA 1</span> Champs-Élysées → área da Torre Eiffel · ~25 min</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Entre na estação <strong class="sta">George V</strong> ou <strong class="sta">Franklin D. Roosevelt</strong> <span class="ml-tag t1">1</span> na Linha 1.</span></li>
+          <li><span class="step-num">2</span><span>Direção <span class="dir-box">LA DÉFENSE</span> → 1–2 paradas → <strong class="sta">Charles de Gaulle-Étoile</strong> → troca para <span class="ml-tag t6">6</span> Linha 6 direção <span class="dir-box">NATION</span> → 4 paradas → <strong class="sta">Bir-Hakeim</strong>.</span></li>
+          <li><span class="step-num">3</span><span>Do hotel, descanse até as 14h30, depois caminhe até a Torre.</span></li>
         </ul>
       </div>
     </div>
@@ -712,8 +766,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 <button class="day-hdr-btn" onclick="openDay('d3',this)">
   <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">3</span></div>
   <div class="day-hdr-info">
-    <h3>Louvre · Arco do Triunfo · Partida</h3>
-    <p>Manhã cheia — saia às 9h! · Voo à tarde</p>
+    <h3>Louvre · Champs-Élysées · Partida</h3>
+    <p>Manhã no Louvre · Almoço na avenida · Voo à tarde</p>
   </div>
   <div class="day-thumb">
     <img data-wiki="Louvre" alt="Louvre">
@@ -724,9 +778,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 <div class="day-sep"></div>
 <div class="att-grid">
   <div class="att-tile"><span class="at-icon">🖼️</span><span class="at-name">Louvre</span><span class="at-time">9h – 11h</span></div>
-  <div class="att-tile"><span class="at-icon">⭐</span><span class="at-name">Arco do Triunfo</span><span class="at-time">11h15 – 13h</span></div>
-  <div class="att-tile"><span class="at-icon">🛍️</span><span class="at-name">Champs-Élysées</span><span class="at-time">13h – 14h30</span></div>
-  <div class="att-tile"><span class="at-icon">✈️</span><span class="at-name">Aeroporto</span><span class="at-time">Sair 14h30</span></div>
+  <div class="att-tile"><span class="at-icon">🛍️</span><span class="at-name">Champs-Élysées</span><span class="at-time">11h15 – 13h</span></div>
+  <div class="att-tile"><span class="at-icon">✈️</span><span class="at-name">Aeroporto</span><span class="at-time">Sair 13h30</span></div>
 </div>
 <div class="day-content" id="content-d3">
 
@@ -775,37 +828,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
       </div>
     </div>
 
-    <!-- FOTO ARCO DO TRIUNFO -->
-    <div class="spot-photo-wrap">
-      <img data-wiki="Arc de Triomphe" data-wiki-size="1200" src="" style="display:none" alt="Arco do Triunfo">
-      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#5a0000,#8b0000)">⭐</div>
-      <div class="spot-photo-label">⭐ Arco do Triunfo · Vista de 360° · 284 degraus</div>
-    </div>
-
-    <div class="seg">
-      <div class="seg-header metro-h"><span class="mode-badge" style="background:var(--l1);color:#fff">LINHA 1</span> Louvre → Arco do Triunfo · ~10 min · 6 paradas</div>
-      <div class="seg-body">
-        <ul>
-          <li><span class="step-num">1</span><span>Volte à estação <strong class="sta">Palais Royal–Musée du Louvre</strong> <span class="ml-tag t1">1</span>.</span></li>
-          <li><span class="step-num">2</span><span>Linha 1 direção <span class="dir-box">LA DÉFENSE</span> (sentido oposto ao que veio) · 6 paradas: → Tuileries → Concorde → Champs-Élysées-Clemenceau → Franklin D. Roosevelt → George V → <strong class="sta">Charles de Gaulle-Étoile</strong>.</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="seg">
-      <div class="seg-header spot-h"><span class="mode-badge spot-badge">VISITA</span> ⭐ Arco do Triunfo · 11h15–13h</div>
-      <div class="seg-body">
-        <ul>
-          <li><span class="step-num">1</span><span><strong>NUNCA atravesse a rotatória a pé!</strong> 12 avenidas, tráfego intenso. Use as <strong>passagens subterrâneas</strong> — desça as escadas nas faixas de pedestres ao redor da praça.</span></li>
-          <li><span class="step-num">2</span><span>No subsolo: siga indicações para a entrada do Arco. A bilheteria fica no túnel. Com ingresso online, mostre QR Code.</span></li>
-          <li><span class="step-num">3</span><span><strong>284 degraus</strong> sem elevador. Nas paredes: nomes de batalhas napoleônicas gravados em pedra.</span></li>
-          <li><span class="step-num">4</span><span><strong>No topo (50m):</strong> Vista de 360° — Torre Eiffel de um lado, 12 bulevares irradiando como estrela (<em>étoile</em>) de outro. Incrível!</span></li>
-          <li><span class="step-num">5</span><span>Embaixo do Arco: <strong>Chama Eterna</strong> do Soldado Desconhecido, acesa desde 1921.</span></li>
-        </ul>
-        <div class="warn-b">⚠️ Saída 1 do metro te leva direto às passagens subterrâneas. Não saia pelas saídas para as avenidas — vai se confundir no tráfego.</div>
-      </div>
-    </div>
-
     <!-- FOTO CHAMPS-ÉLYSÉES -->
     <div class="spot-photo-wrap">
       <img data-wiki="Champs-Élysées" data-wiki-size="1200" src="" style="display:none" alt="Champs-Élysées">
@@ -814,13 +836,24 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
     </div>
 
     <div class="seg">
-      <div class="seg-header walk-h"><span class="mode-badge walk-badge">A PÉ</span> Arco → Champs-Élysées → Almoço · 13h–14h30</div>
+      <div class="seg-header metro-h"><span class="mode-badge" style="background:var(--l1);color:#fff">LINHA 1</span> Louvre → Champs-Élysées · ~8 min · 4 paradas</div>
       <div class="seg-body">
         <ul>
-          <li><span class="step-num">1</span><span>Do Arco, siga a <strong>Avenue des Champs-Élysées</strong> em direção sudeste — a avenida mais famosa parte do próprio Arco.</span></li>
-          <li><span class="step-num">2</span><span>1,9 km de lojas, cafés, cinemas e terraços. Lojas acessíveis (Zara, farmácias) e luxo lado a lado.</span></li>
-          <li><span class="step-num">3</span><span>Almoce num dos cafés de terraço — peça: <em>"Un café crème, s'il vous plaît"</em> (Uhn ka-FAY krem, seel voo PLAY) = café com leite.</span></li>
+          <li><span class="step-num">1</span><span>Volte à estação <strong class="sta">Palais Royal–Musée du Louvre</strong> <span class="ml-tag t1">1</span>.</span></li>
+          <li><span class="step-num">2</span><span>Linha 1 direção <span class="dir-box">LA DÉFENSE</span> · 4 paradas: → Tuileries → Concorde → Champs-Élysées-Clemenceau → <strong class="sta">Franklin D. Roosevelt</strong>. Saída → você está na Champs-Élysées.</span></li>
         </ul>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header walk-h"><span class="mode-badge walk-badge">A PÉ</span> Champs-Élysées → Almoço · 11h15–13h</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Percorra a <strong>Avenue des Champs-Élysées</strong> — 1,9 km de lojas, cafés e terraços icônicos.</span></li>
+          <li><span class="step-num">2</span><span>Almoce num café de terraço com vista para a avenida. Peça: <em>"Un menu du jour, s'il vous plaît"</em> = prato do dia.</span></li>
+          <li><span class="step-num">3</span><span>Últ paradas: farmácia francesa (ótimos cosméticos baratos!), souvenirs para levar para Portugal.</span></li>
+        </ul>
+        <div class="tip-b">💡 No fim da Champs-Élysées (sentido norte) aviste o Arco do Triunfo do lado de fora — ótima foto de recordação do passeio do Dia 1!</div>
       </div>
     </div>
 
@@ -928,14 +961,18 @@ function initMap(id){
   var attr='© OpenStreetMap';
 
   if(id==='d1'){
-    var m=L.map('map1',{zoomControl:true}).setView([48.857,2.293],15);
+    var m=L.map('map1',{zoomControl:true}).setView([48.863,2.290],13);
     L.tileLayer(tiles,{attribution:attr,maxZoom:19}).addTo(m);
-    var hotel=[48.8534,2.2965],eiffel=[48.8584,2.2945],boat=[48.8571,2.2953];
+    var hotel=[48.8534,2.2965],birH=[48.8533,2.2892],cdge=[48.8738,2.2951],arc=[48.8738,2.2950],eiffel=[48.8584,2.2945],boat=[48.8571,2.2953];
     L.marker(hotel,{icon:mkIcon('🏨',NAVY)}).addTo(m).bindPopup('<b>Hotel Ibis</b>');
-    L.marker(eiffel,{icon:mkIcon('🗼',GOLD)}).addTo(m).bindPopup('<b>① Torre Eiffel</b><br>~9 min a pé do hotel');
-    L.marker(boat,{icon:mkIcon('⛵','#1565c0')}).addTo(m).bindPopup('<b>② Cruzeiro Sena</b><br>Port de la Bourdonnais<br>~5 min a pé da torre');
-    L.marker([48.8533,2.2892],{icon:mkSt('6',L6)}).addTo(m).bindPopup('<b>Metro Bir-Hakeim</b><br>Linha 6');
-    L.polyline([hotel,eiffel],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
+    L.marker(birH,{icon:mkSt('6',L6)}).addTo(m).bindPopup('<b>Bir-Hakeim · Linha 6</b><br>→ CdG-Étoile (4 paradas)');
+    L.marker(cdge,{icon:mkSt('6',L6)}).addTo(m).bindPopup('<b>Charles de Gaulle-Étoile</b><br>Saída 1 → passagem subterrânea → Arco');
+    L.marker(arc,{icon:mkIcon('⭐',GOLD)}).addTo(m).bindPopup('<b>① Arco do Triunfo</b><br>10h–12h · 284 degraus · Vista 360°');
+    L.marker(eiffel,{icon:mkIcon('🗼',GOLD)}).addTo(m).bindPopup('<b>② Torre Eiffel</b><br>15h–18h · subir ao topo!');
+    L.marker(boat,{icon:mkIcon('⛵','#1565c0')}).addTo(m).bindPopup('<b>③ Cruzeiro Sena</b><br>Port de la Bourdonnais · 21h30');
+    L.polyline([hotel,birH],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
+    L.polyline([birH,[48.8612,2.2873],[48.8656,2.2877],[48.8700,2.2926],cdge],{color:L6,weight:3}).addTo(m);
+    L.polyline([arc,[48.8718,2.2980],[48.8698,2.3010],[48.8658,2.3020],[48.8640,2.2980],[48.8610,2.2962],eiffel],{color:L6,weight:2,opacity:.5,dashArray:'8,4'}).addTo(m);
     L.polyline([eiffel,boat],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
     maps[id]=m;
   }
@@ -955,19 +992,17 @@ function initMap(id){
   }
 
   if(id==='d3'){
-    var m=L.map('map3',{zoomControl:true}).setView([48.863,2.308],13);
+    var m=L.map('map3',{zoomControl:true}).setView([48.858,2.320],14);
     L.tileLayer(tiles,{attribution:attr,maxZoom:19}).addTo(m);
-    var hotel=[48.8534,2.2965],birH=[48.8533,2.2892],cdge=[48.8738,2.2951],louvre=[48.8606,2.3376],arc=[48.8738,2.2950],champ=[48.8698,2.3080];
+    var hotel=[48.8534,2.2965],birH=[48.8533,2.2892],cdge=[48.8738,2.2951],louvre=[48.8606,2.3376],champsM=[48.8669,2.3080];
     L.marker(hotel,{icon:mkIcon('🏨',NAVY)}).addTo(m).bindPopup('<b>Hotel Ibis</b>');
     L.marker(birH,{icon:mkSt('6',L6)}).addTo(m).bindPopup('<b>Bir-Hakeim · Linha 6</b><br>→ CdG-Étoile → troca L1 → Louvre');
     L.marker(louvre,{icon:mkIcon('🖼️',GOLD)}).addTo(m).bindPopup('<b>① Louvre</b><br>9h–11h · Mona Lisa · Sala 711');
-    L.marker(arc,{icon:mkIcon('⭐',GOLD)}).addTo(m).bindPopup('<b>② Arco do Triunfo</b><br>11h15–13h · 284 degraus');
-    L.marker(champ,{icon:mkIcon('🛍️',GOLD)}).addTo(m).bindPopup('<b>③ Champs-Élysées</b><br>Almoço · lojas · despedida');
+    L.marker(champsM,{icon:mkIcon('🛍️',GOLD)}).addTo(m).bindPopup('<b>② Champs-Élysées</b><br>11h15–13h · Almoço · lojas · despedida');
     L.polyline([hotel,birH],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
     L.polyline([birH,[48.8612,2.2873],[48.8656,2.2877],[48.8700,2.2926],cdge],{color:L6,weight:3}).addTo(m);
     L.polyline([cdge,[48.8656,2.3210],[48.8638,2.3270],[48.8638,2.3368],louvre],{color:L1,weight:3}).addTo(m);
-    L.polyline([louvre,[48.8638,2.3368],[48.8638,2.3210],cdge],{color:L1,weight:2,opacity:.45,dashArray:'8,4'}).addTo(m);
-    L.polyline([arc,[48.8718,2.2980],[48.8708,2.3020],champ],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
+    L.polyline([louvre,[48.8638,2.3368],[48.8638,2.3270],[48.8638,2.3210],[48.8656,2.3100],champsM],{color:L1,weight:2,opacity:.5,dashArray:'8,4'}).addTo(m);
     maps[id]=m;
   }
 }
