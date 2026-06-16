@@ -149,6 +149,14 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   background:#eef1f7;color:var(--navy);border-radius:8px;
   padding:.28rem .65rem;font-size:.68rem;font-weight:800;flex-shrink:0;
 }
+.day-thumb{
+  width:62px;height:62px;border-radius:14px;overflow:hidden;
+  flex-shrink:0;border:1px solid var(--border);
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+.day-thumb img{width:100%;height:100%;object-fit:cover;display:none;}
+.day-thumb .dt-fb{width:100%;height:100%;background:#eef1f7;
+  display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
 .day-hdr-arr{
   color:#c0c8d8;font-size:1.1rem;flex-shrink:0;
   transition:transform .3s;
@@ -415,7 +423,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
     <h3>Torre Eiffel &amp; Cruzeiro no Sena</h3>
     <p>Chegada · Torre · Cruzeiro noturno</p>
   </div>
-  <span class="day-date-chip">23 Jun</span>
+  <div class="day-thumb">
+    <img data-wiki="Eiffel Tower" alt="Torre Eiffel">
+    <div class="dt-fb">🗼</div>
+  </div>
   <span class="day-hdr-arr">›</span>
 </button>
 <div class="day-sep"></div>
@@ -524,7 +535,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
     <h3>Versalhes · Notre-Dame · Le Nesle</h3>
     <p>Sexta · Coroa de Cristo 15h–18h30</p>
   </div>
-  <span class="day-date-chip">24 Jun</span>
+  <div class="day-thumb">
+    <img data-wiki="Palace of Versailles" alt="Versalhes">
+    <div class="dt-fb">🏰</div>
+  </div>
   <span class="day-hdr-arr">›</span>
 </button>
 <div class="day-sep"></div>
@@ -701,7 +715,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
     <h3>Louvre · Arco do Triunfo · Partida</h3>
     <p>Manhã cheia — saia às 9h! · Voo à tarde</p>
   </div>
-  <span class="day-date-chip">25 Jun</span>
+  <div class="day-thumb">
+    <img data-wiki="Louvre" alt="Louvre">
+    <div class="dt-fb">🖼️</div>
+  </div>
   <span class="day-hdr-arr">›</span>
 </button>
 <div class="day-sep"></div>
@@ -859,11 +876,10 @@ function applyWikiImg(img,article,size){
     img.onload=function(){
       img.style.display='block';
       var fb=img.nextElementSibling;
-      if(fb&&fb.classList.contains('thumb-fb')||fb&&fb.classList.contains('spot-photo-fb'))
-        fb.style.display='none';
+      if(fb) fb.style.display='none';
     };
     img.onerror=function(){
-      img.src=url; // fallback to original size
+      img.src=url;
       img.onload=function(){
         img.style.display='block';
         var fb=img.nextElementSibling;
