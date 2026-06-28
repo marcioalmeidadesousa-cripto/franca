@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paris · 23–25 Junho</title>
+<style>
+  :root {
+    --blue: #1b3a6b;
+    --gold: #c8a84b;
+    --light: #f5f2ed;
+    --white: #ffffff;
+    --text: #1e1e1e;
+    --muted: #6b6b6b;
+    --l1: #f5a623;
+    --l4: #a0006e;
+    --l6: #6ab04c;
+    --l9: #c5a900;
+    --rerc: #cc0000;
+    --green: #1d7a3a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--light);
+    color: var(--text);
+    min-height: 100vh;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(160deg, #0d2147 0%, #1b3a6b 60%, #2d5490 100%);
+    color: white;
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+  }
+  .header-icon { font-size: 2.8rem; line-height: 1; margin-bottom: 0.5rem; }
+  header h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px; }
+  header p { color: rgba(255,255,255,0.65); margin-top: 0.3rem; font-size: 0.85rem; }
+  .hotel-pill {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(200,168,75,0.2); border: 1px solid rgba(200,168,75,0.5);
+    border-radius: 999px; padding: 0.4rem 1rem; font-size: 0.82rem;
+    color: var(--gold); margin-top: 1rem; font-weight: 600;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    background: #0d2147;
+    border-bottom: 3px solid var(--gold);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .tab {
+    flex: 1; padding: 0.75rem 0.25rem; text-align: center;
+    color: rgba(255,255,255,0.5); cursor: pointer;
+    font-size: 0.78rem; font-weight: 600; border: none;
+    background: none; transition: all 0.2s; line-height: 1.3;
+    border-bottom: 3px solid transparent; margin-bottom: -3px;
+  }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab:hover:not(.active) { color: rgba(255,255,255,0.8); }
+
+  /* CONTENT PANELS */
+  .panel { display: none; padding: 1.25rem; }
+  .panel.active { display: block; }
+
+  /* DAY HEADER */
+  .day-header {
+    display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+  }
+  .day-badge {
+    background: var(--blue); color: white; border-radius: 10px;
+    padding: 0.4rem 0.85rem; font-size: 0.72rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.6px; white-space: nowrap;
+  }
+  .day-title { font-size: 1rem; font-weight: 700; color: var(--blue); }
+
+  /* CARD */
+  .card {
+    background: var(--white); border-radius: 16px; padding: 1.1rem 1.25rem;
+    margin-bottom: 0.9rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    border-left: 4px solid var(--gold);
+  }
+  .card.blue { border-left-color: #3b7dd8; }
+  .card.red  { border-left-color: #e74c3c; }
+  .card.green{ border-left-color: var(--green); }
+  .card.dark {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1a3366 100%);
+    color: white; border-left-color: #3b7dd8;
+  }
+  .card-time {
+    font-size: 0.7rem; font-weight: 800; color: var(--gold);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem;
+  }
+  .card.dark .card-time { color: #7eb8f7; }
+  .card-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.45rem; }
+  .card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+  .card.dark .card-desc { color: rgba(255,255,255,0.65); }
+
+  /* METRO BOX */
+  .metro-box {
+    background: #eef2ff; border-radius: 10px;
+    padding: 0.7rem 0.9rem; margin-top: 0.75rem;
+  }
+  .card.dark .metro-box {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .metro-label {
+    font-size: 0.68rem; font-weight: 800; color: #555;
+    text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 0.45rem;
+  }
+  .card.dark .metro-label { color: rgba(255,255,255,0.4); }
+  .metro-route {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 0.3rem;
+    font-size: 0.8rem;
+  }
+  .ml {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 1.45rem; height: 1.45rem; border-radius: 50%;
+    font-weight: 900; font-size: 0.65rem; color: white; padding: 0 0.3rem;
+    flex-shrink: 0;
+  }
+  .l1c  { background: var(--l1); }
+  .l4c  { background: var(--l4); }
+  .l6c  { background: var(--l6); }
+  .l9c  { background: var(--l9); }
+  .rcrc { background: var(--rerc); border-radius: 4px !important; font-size: 0.6rem; }
+  .arr { color: #aaa; font-size: 0.7rem; }
+  .sta { font-weight: 700; color: var(--blue); font-size: 0.8rem; }
+  .card.dark .sta { color: #9dc4f0; }
+  .xfer { color: #d35400; font-size: 0.72rem; font-weight: 700; }
+  .dur  { font-size: 0.72rem; color: #888; }
+
+  /* WALK */
+  .walk {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.8rem; color: var(--green); font-weight: 700;
+    margin-top: 0.65rem;
+  }
+
+  /* TIP BOX */
+  .tip {
+    background: #fff8e6; border: 1px solid #f0d060;
+    border-radius: 10px; padding: 0.65rem 0.9rem;
+    font-size: 0.78rem; color: #6a4800; line-height: 1.55;
+    margin-top: 0.65rem;
+  }
+  .tip.blue {
+    background: #eaf3ff; border-color: #9fc3f0; color: #14406b;
+  }
+  .tip.dark-tip {
+    background: rgba(255,200,0,0.08); border-color: rgba(255,200,0,0.25);
+    color: rgba(255,240,180,0.9);
+  }
+
+  /* OVERVIEW */
+  .grid2 {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .ov-card {
+    background: white; border-radius: 14px; padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center;
+  }
+  .ov-icon { font-size: 1.5rem; display: block; margin-bottom: 0.3rem; }
+  .ov-label { font-size: 0.72rem; color: var(--muted); }
+  .ov-value { font-size: 0.9rem; font-weight: 800; color: var(--blue); margin-top: 0.15rem; }
+
+  /* LEGEND */
+  .legend-box {
+    background: white; border-radius: 14px; padding: 1rem 1.1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 1rem;
+  }
+  .legend-box h3 {
+    font-size: 0.78rem; font-weight: 800; color: var(--blue);
+    text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 0.75rem;
+  }
+  .leg-row {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.8rem; color: var(--text); margin-bottom: 0.45rem;
+  }
+
+  /* CHECKLIST */
+  .check-box {
+    background: white; border-radius: 14px; padding: 1rem 1.1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .check-box h3 {
+    font-size: 0.78rem; font-weight: 800; color: var(--blue);
+    text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 0.75rem;
+  }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 0.65rem;
+    padding: 0.6rem 0; border-bottom: 1px solid #f0f0f0;
+    font-size: 0.82rem; line-height: 1.4;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-ico { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .check-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* DIVIDER */
+  .divider {
+    display: flex; align-items: center; gap: 0.6rem;
+    margin: 0.3rem 0 0.85rem; color: #bbb; font-size: 0.75rem;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: #e8e8e8;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-icon">🗼</div>
+  <h1>Paris · Junho 2026</h1>
+  <p>Roteiro personalizado · 3 dias · saindo de Portugal</p>
+  <div class="hotel-pill">🏨 Ibis Paris · Torre Eiffel</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="go('visao',this)">Visão<br>Geral</button>
+  <button class="tab" onclick="go('d1',this)">Dia 1<br><small>23/06</small></button>
+  <button class="tab" onclick="go('d2',this)">Dia 2<br><small>24/06</small></button>
+  <button class="tab" onclick="go('d3',this)">Dia 3<br><small>25/06</small></button>
+</div>
+
+<!-- ═══════════ VISÃO GERAL ═══════════ -->
+<div id="tab-visao" class="panel active">
+
+  <div class="grid2" style="margin-top:1rem">
+    <div class="ov-card"><span class="ov-icon">✈️</span><div class="ov-label">Chegada</div><div class="ov-value">23 Jun</div></div>
+    <div class="ov-card"><span class="ov-icon">🛫</span><div class="ov-label">Partida</div><div class="ov-value">25 Jun (tarde)</div></div>
+    <div class="ov-card"><span class="ov-icon">🏨</span><div class="ov-label">Hotel</div><div class="ov-value">Ibis · Eiffel</div></div>
+    <div class="ov-card"><span class="ov-icon">🎯</span><div class="ov-label">Atrações</div><div class="ov-value">6 locais</div></div>
+  </div>
+
+  <div class="legend-box">
+    <h3>Linhas de Metro &amp; Trem</h3>
+    <div class="leg-row"><span class="ml l6c">6</span> Linha 6 — verde (passa em Bir-Hakeim / Torre Eiffel)</div>
+    <div class="leg-row"><span class="ml l1c">1</span> Linha 1 — laranja (Champs-Élysées → Louvre)</div>
+    <div class="leg-row"><span class="ml l4c">4</span> Linha 4 — roxo (Notre-Dame / Cité)</div>
+    <div class="leg-row"><span class="ml l9c">9</span> Linha 9 — amarelo (Alma-Marceau / cruzamentos)</div>
+    <div class="leg-row"><span class="ml rcrc">RER C</span> RER C — trem regional (aeroporto CDG/Orly na partida)</div>
+  </div>
+
+  <div class="check-box">
+    <h3>📋 Ingressos — compre com antecedência</h3>
+
+    <div class="check-item">
+      <span class="check-ico">🗼</span>
+      <div>
+        <strong>Torre Eiffel</strong> — Reserve online (esgota meses antes)<br>
+        <div class="check-sub">toureiffel.paris · cume €29,40 · 2.º andar €18,80</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <span class="check-ico">🖼️</span>
+      <div>
+        <strong>Museu do Louvre</strong> — Online obrigatório (fila enorme)<br>
+        <div class="check-sub">louvre.fr · €22 (inclui Mona Lisa)</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <span class="check-ico">⭐</span>
+      <div>
+        <strong>Arco do Triunfo</strong> — Online ou na bilheteria<br>
+        <div class="check-sub">paris-arc-de-triomphe.fr · €13</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <span class="check-ico">⛵</span>
+      <div>
+        <strong>Cruzeiro Rio Sena</strong> — Pode comprar no dia<br>
+        <div class="check-sub">Bateaux Parisiens ou Vedettes de Paris · ~€17</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <span class="check-ico">⛪</span>
+      <div>
+        <strong>Notre-Dame de Paris</strong> — Entrada gratuita<br>
+        <div class="check-sub">Reabriu dez/2024 · verificar acesso às torres em notredamedeparis.fr</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <span class="check-ico">🍰</span>
+      <div>
+        <strong>Angelina Paris</strong> — Sem reserva (pode ter fila curta)<br>
+        <div class="check-sub">226 Rue de Rivoli · famosa pelo Mont-Blanc e chocolate quente</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ DIA 1 ═══════════ -->
+<div id="tab-d1" class="panel">
+  <div class="day-header">
+    <div class="day-badge">Dia 1 · 23/06</div>
+    <div class="day-title">Manhã livre + Torre Eiffel + Cruzeiro</div>
+  </div>
+
+  <div class="card green">
+    <div class="card-time">Manhã — hora livre</div>
+    <div class="card-title">🗺️ Explorar a cidade</div>
+    <div class="card-desc">Sem pressa! Deixe as malas no hotel e saia para conhecer a vizinhança. Sugestões a pé: <strong>Pont de Bir-Hakeim</strong> (a ponte das fotos do Inception), <strong>Île aux Cygnes</strong> (ilha fluvial com estátua da Liberdade em miniatura), <strong>Trocadéro</strong> (melhor vista panorâmica da Torre Eiffel) e o <strong>Champ de Mars</strong>. Tome um café num bistrô de bairro — essa é a Paris de verdade.</div>
+    <div class="tip">💡 O Trocadéro é a 1 parada de metrô (Linha 6) ou ~20 min a pé. Vista da Torre Eiffel de frente, de graça e sem fila — melhor fotografia da viagem.</div>
+  </div>
+
+  <div class="card blue">
+    <div class="card-time">Check-in</div>
+    <div class="card-title">🏨 Check-in no Ibis</div>
+    <div class="card-desc">Deixe as malas e descanse um pouco antes da tarde na Torre Eiffel. O hotel fica a 5–10 min a pé da Torre — localização perfeita para o roteiro inteiro.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-time">15h30 – 19h</div>
+    <div class="card-title">🗼 Torre Eiffel — subir</div>
+    <div class="card-desc">O ícone de Paris é seu vizinho! Final de tarde tem filas menores e a luz dourada do pôr do sol é espetacular lá em cima. Com ingresso comprado online, acesse direto pelo elevador do pilar sul.</div>
+    <div class="walk">🚶 A pé do hotel — 5 a 10 minutos</div>
+    <div class="tip">💡 Mesmo sem ingresso para subir, o Champ de Mars (gramado em frente) é lindo para fotos e passeio. A torre acende as luzes ao entardecer.</div>
+  </div>
+
+  <div class="card dark">
+    <div class="card-time">21h – 22h30</div>
+    <div class="card-title">⛵ Cruzeiro Noturno no Rio Sena</div>
+    <div class="card-desc">O melhor jeito de ver Paris à noite! O barco passa sob pontes históricas enquanto os monumentos se iluminam. A Torre Eiffel pisca de ouro a cada hora cheia.</div>
+
+    <div class="metro-box">
+      <div class="metro-label">Como chegar ao embarque</div>
+      <div class="metro-route">
+        <span>🚶 A pé (~12 min)</span>
+        <span class="arr">ou</span>
+        <span class="ml l9c">9</span>
+        <span class="arr">→</span>
+        <span class="sta">Trocadéro</span>
+        <span class="arr">→</span>
+        <span class="sta">Alma-Marceau</span>
+        <span class="dur">(1 parada)</span>
+      </div>
+    </div>
+
+    <div class="tip dark-tip">
+      ✨ <strong>Espetáculo de luz:</strong> A Torre Eiffel pisca durante 5 minutos a cada hora cheia, até meia-noite. Posicione-se no deck para o momento mágico — geralmente às 22h ou 23h durante o cruzeiro.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ DIA 2 ═══════════ -->
+<div id="tab-d2" class="panel">
+  <div class="day-header">
+    <div class="day-badge">Dia 2 · 24/06</div>
+    <div class="day-title">Louvre + Angelina + Notre-Dame</div>
+  </div>
+
+  <div class="card">
+    <div class="card-time">08h45 – 09h20</div>
+    <div class="card-title">🚇 Ir ao Louvre</div>
+    <div class="card-desc">Saia do hotel às 8h45 para chegar com folga antes dos 9h30 do ingresso. Deixe as malas e tome o café da manhã no hotel antes.</div>
+
+    <div class="metro-box">
+      <div class="metro-label">Hotel (Bir-Hakeim) → Louvre</div>
+      <div class="metro-route">
+        <span class="ml l6c">6</span>
+        <span class="arr">→</span>
+        <span class="sta">Bir-Hakeim</span>
+        <span class="arr">direction Étoile → 4 paradas →</span>
+        <span class="sta">Charles de Gaulle-Étoile</span>
+        <span class="arr">→</span>
+        <span class="xfer">troca</span>
+        <span class="ml l1c">1</span>
+        <span class="arr">direction Vincennes → 6 paradas →</span>
+        <span class="sta">Palais Royal–Musée du Louvre</span>
+        <span class="dur">(~25 min)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-time">09h30 – 13h</div>
+    <div class="card-title">🖼️ Museu do Louvre — ingresso 9h30</div>
+    <div class="card-desc">Entre pela Pirâmide de vidro com seu ingresso já reservado — direto sem fila. Vá direto à <strong>Mona Lisa: Ala Denon, 1.º andar, Sala 711</strong>. Com 3h30 de visita, dá para ver os grandes destaques com calma.</div>
+    <div class="tip">💡 <strong>Rota dos destaques (3h):</strong> Vênus de Milo (Sully) → Vitória de Samotrácia (Denon, escadaria) → Mona Lisa (Denon 711) → percorra as galerias italianas de volta. Não tente ver tudo — o Louvre tem 35.000 obras!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-time">13h – 14h</div>
+    <div class="card-title">🍽️ Almoço na área do Louvre</div>
+    <div class="card-desc">A Rue de Rivoli e o Palais Royal têm ótimas opções a 5 min a pé. Aproveite para sentar e descansar antes da tarde.</div>
+  </div>
+
+  <div class="card green">
+    <div class="card-time">14h – 15h</div>
+    <div class="card-title">🍰 Angelina Paris — O bolo!</div>
+    <div class="card-desc">A confeitaria mais famosa de Paris, fundada em 1903 e frequentada por Coco Chanel. O <strong>Mont-Blanc</strong> (creme de castanha, chantilly e merengue) e o chocolate quente africano são a especialidade da casa. Pode ter fila curta na porta — vale.</div>
+    <div class="walk">🚶 A pé do Louvre — 3 minutos pela Rue de Rivoli</div>
+    <div class="metro-box">
+      <div class="metro-label">Endereço</div>
+      <div class="metro-route">
+        <span>226 Rue de Rivoli, 75001 · Estação</span>
+        <span class="ml l1c">1</span>
+        <span class="sta">Tuileries</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-time">15h30 – 17h30</div>
+    <div class="card-title">⛪ Notre-Dame de Paris</div>
+    <div class="card-desc">A catedral reabriu em dezembro de 2024 — completamente restaurada e ainda mais deslumbrante! Entrada <strong>gratuita</strong>. Verifique no site oficial se o acesso às torres e à cruz já está disponível para visitantes na sua data.</div>
+
+    <div class="metro-box">
+      <div class="metro-label">De Angelina / Tuileries → Notre-Dame</div>
+      <div class="metro-route">
+        <span class="ml l1c">1</span>
+        <span class="arr">→</span>
+        <span class="sta">Tuileries</span>
+        <span class="arr">→</span>
+        <span class="sta">Châtelet</span>
+        <span class="arr">→</span>
+        <span class="xfer">troca</span>
+        <span class="ml l4c">4</span>
+        <span class="arr">→</span>
+        <span class="sta">Cité</span>
+        <span class="dur">(saída Notre-Dame)</span>
+      </div>
+    </div>
+
+    <div class="tip blue">
+      ⛪ <strong>Sobre a Cruz:</strong> A nova flecha e a cruz da catedral foram restauradas e erguidas em 2023. A catedral reabriu em dez/2024. O acesso às <em>torres</em> (e possivelmente à área da cruz) pode estar em fase de abertura gradual. Consulte <strong>notredamedeparis.fr</strong> antes da viagem para confirmar o que estará disponível em junho/2026.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-time">17h30 em diante</div>
+    <div class="card-title">🌅 Tarde livre no centro histórico</div>
+    <div class="card-desc">Explore a <strong>Île de la Cité</strong> e a <strong>Île Saint-Louis</strong> — as duas ilhas do Sena no coração de Paris. Sorvete na Île Saint-Louis (famosa gelateria Berthillon), Sainte-Chapelle nas proximidades, ou simplesmente caminhe pelas margens do rio ao entardecer.</div>
+  </div>
+</div>
+
+<!-- ═══════════ DIA 3 ═══════════ -->
+<div id="tab-d3" class="panel">
+  <div class="day-header">
+    <div class="day-badge">Dia 3 · 25/06</div>
+    <div class="day-title">Arco do Triunfo + Champs-Élysées + Partida</div>
+  </div>
+
+  <div class="card">
+    <div class="card-time">09h – 11h</div>
+    <div class="card-title">⭐ Arco do Triunfo — Subir ao topo</div>
+    <div class="card-desc">284 degraus de história. Do topo você vê os 12 bulevares irradiando da Place Charles-de-Gaulle e uma vista de 360° de Paris com a Torre Eiffel ao fundo. Vale cada degrau.</div>
+
+    <div class="metro-box">
+      <div class="metro-label">Hotel (Bir-Hakeim) → Arco do Triunfo</div>
+      <div class="metro-route">
+        <span class="ml l6c">6</span>
+        <span class="arr">→</span>
+        <span class="sta">Bir-Hakeim</span>
+        <span class="arr">direction Charles de Gaulle-Étoile →</span>
+        <span class="sta">Charles de Gaulle-Étoile</span>
+        <span class="dur">(4 paradas · ~12 min)</span>
+      </div>
+    </div>
+
+    <div class="tip">
+      ⚠️ <strong>Não atravesse a rotatória!</strong> A entrada para o Arco fica nas <em>passagens subterrâneas</em> embaixo da Place de l'Étoile. Procure a escada no meio das faixas de pedestre. Evite tentar cruzar o tráfego — é perigoso e proibido.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-time">11h – 12h30</div>
+    <div class="card-title">🛍️ Avenue des Champs-Élysées</div>
+    <div class="card-desc">Do Arco do Triunfo você desce diretamente a avenida mais famosa do mundo. Lojas, cafés, cinemas históricos e a energia vibrante de Paris. Perfeita para a despedida da cidade.</div>
+    <div class="walk">🚶 A pé do Arco — direto na avenida (300 metros)</div>
+  </div>
+
+  <div class="card">
+    <div class="card-time">12h30 – 14h</div>
+    <div class="card-title">🍽️ Almoço &amp; Preparação</div>
+    <div class="card-desc">Almoce na região dos Champs-Élysées ou volte ao hotel para fazer as malas com calma. Reserve pelo menos 2h30 antes do voo para o trajeto ao aeroporto + check-in.</div>
+  </div>
+
+  <div class="card red">
+    <div class="card-time">14h30 em diante</div>
+    <div class="card-title">✈️ Rumo ao Aeroporto</div>
+    <div class="card-desc">Confirme qual aeroporto de Paris você usará. Saída do hotel com folga.</div>
+
+    <div class="metro-box">
+      <div class="metro-label">🔵 Aeroporto CDG (Charles de Gaulle) — voos internacionais</div>
+      <div class="metro-route">
+        <span class="ml rcrc">RER C</span>
+        <span class="arr">→</span>
+        <span class="sta">Champ de Mars</span>
+        <span class="arr">→</span>
+        <span class="sta">Saint-Michel</span>
+        <span class="arr">→</span>
+        <span class="xfer">troca RER B</span>
+        <span class="arr">→</span>
+        <span class="sta">CDG Terminal 2</span>
+        <span class="dur">(~60 min total)</span>
+      </div>
+    </div>
+
+    <div class="metro-box" style="margin-top:0.6rem">
+      <div class="metro-label">🔴 Aeroporto Orly (ORY)</div>
+      <div class="metro-route">
+        <span class="ml rcrc">RER C</span>
+        <span class="arr">→</span>
+        <span class="sta">Pont de Rungis</span>
+        <span class="arr">→</span>
+        <span class="xfer">ônibus Orlybus</span>
+        <span class="arr">→</span>
+        <span class="sta">Orly</span>
+        <span class="dur">(~55–65 min)</span>
+      </div>
+    </div>
+
+    <div class="tip">
+      💡 Voos para Portugal (Lisboa/Porto) saem tanto de CDG quanto de Orly. Confirme no seu bilhete. Parta do hotel pelo menos <strong>2h30 antes do embarque</strong>.
+    </div>
+  </div>
+</div>
+
+<script>
+  function go(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
