@@ -43,7 +43,30 @@
     display: inline-flex; align-items: center; gap: 0.4rem;
     background: rgba(200,168,75,0.2); border: 1px solid rgba(200,168,75,0.5);
     border-radius: 999px; padding: 0.4rem 1rem; font-size: 0.82rem;
-    color: var(--gold); margin-top: 1rem; font-weight: 600;
+    color: var(--gold); font-weight: 600;
+  }
+  .header-actions {
+    display: flex; gap: 0.6rem; justify-content: center;
+    flex-wrap: wrap; margin-top: 1rem;
+  }
+  .pdf-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3);
+    color: white; border-radius: 999px; padding: 0.4rem 1rem; font-size: 0.82rem;
+    font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  .pdf-btn:hover { background: rgba(255,255,255,0.22); }
+
+  /* MAP BUTTON */
+  .map-btn {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: #eaf3ff; color: #14406b; border: 1px solid #9fc3f0;
+    border-radius: 999px; padding: 0.45rem 0.9rem; font-size: 0.78rem;
+    font-weight: 700; text-decoration: none; margin-top: 0.75rem;
+  }
+  .card.dark .map-btn {
+    background: rgba(255,255,255,0.1); color: #9dc4f0;
+    border-color: rgba(255,255,255,0.25);
   }
 
   /* TABS */
@@ -211,6 +234,35 @@
   .divider::before, .divider::after {
     content: ''; flex: 1; height: 1px; background: #e8e8e8;
   }
+
+  /* PRINT-ONLY SUMMARY */
+  .print-only { display: none; }
+  .print-summary-day { margin-bottom: 1rem; }
+  .print-summary-day h3 { font-size: 0.85rem; color: var(--blue); margin-bottom: 0.35rem; }
+  .print-summary-day ul { list-style: none; padding-left: 0; }
+  .print-summary-day li { font-size: 0.8rem; padding: 0.15rem 0; }
+
+  /* PRINT LAYOUT */
+  @media print {
+    .tabs, .pdf-btn, .map-btn { display: none !important; }
+    body { max-width: 100%; }
+    header { background: white !important; color: var(--blue) !important; text-align: left; padding: 0.5rem 0 1rem; }
+    header p, .hotel-pill { color: var(--muted) !important; }
+    .hotel-pill { background: none !important; border-color: #ccc !important; }
+    .panel { display: block !important; }
+    .panel:not(:first-child) { page-break-before: always; }
+    .card { box-shadow: none; break-inside: avoid; }
+    .card.dark {
+      background: white !important; color: var(--text) !important; border: 1px solid #ddd;
+    }
+    .card.dark .card-time { color: var(--gold) !important; }
+    .card.dark .card-desc { color: var(--muted) !important; }
+    .card.dark .metro-box { background: #eef2ff !important; border: none; }
+    .card.dark .metro-label { color: #555 !important; }
+    .card.dark .sta { color: var(--blue) !important; }
+    .tip.dark-tip { background: #fff8e6 !important; border-color: #f0d060 !important; color: #6a4800 !important; }
+    .print-only { display: block !important; }
+  }
 </style>
 </head>
 <body>
@@ -219,7 +271,10 @@
   <div class="header-icon">🗼</div>
   <h1>Paris · Junho 2026</h1>
   <p>Roteiro personalizado · 3 dias · saindo de Portugal</p>
-  <div class="hotel-pill">🏨 Ibis Paris · Torre Eiffel</div>
+  <div class="header-actions">
+    <div class="hotel-pill">🏨 Ibis Paris · Torre Eiffel</div>
+    <button class="pdf-btn" onclick="window.print()">📄 Exportar PDF</button>
+  </div>
 </header>
 
 <div class="tabs">
@@ -236,7 +291,7 @@
     <div class="ov-card"><span class="ov-icon">✈️</span><div class="ov-label">Chegada</div><div class="ov-value">23 Jun</div></div>
     <div class="ov-card"><span class="ov-icon">🛫</span><div class="ov-label">Partida</div><div class="ov-value">25 Jun (tarde)</div></div>
     <div class="ov-card"><span class="ov-icon">🏨</span><div class="ov-label">Hotel</div><div class="ov-value">Ibis · Eiffel</div></div>
-    <div class="ov-card"><span class="ov-icon">🎯</span><div class="ov-label">Atrações</div><div class="ov-value">6 locais</div></div>
+    <div class="ov-card"><span class="ov-icon">🎯</span><div class="ov-label">Atrações</div><div class="ov-value">7 locais</div></div>
   </div>
 
   <div class="legend-box">
@@ -308,12 +363,14 @@
     <div class="card-title">🗺️ Explorar a cidade</div>
     <div class="card-desc">Sem pressa! Deixe as malas no hotel e saia para conhecer a vizinhança. Sugestões a pé: <strong>Pont de Bir-Hakeim</strong> (a ponte das fotos do Inception), <strong>Île aux Cygnes</strong> (ilha fluvial com estátua da Liberdade em miniatura), <strong>Trocadéro</strong> (melhor vista panorâmica da Torre Eiffel) e o <strong>Champ de Mars</strong>. Tome um café num bistrô de bairro — essa é a Paris de verdade.</div>
     <div class="tip">💡 O Trocadéro é a 1 parada de metrô (Linha 6) ou ~20 min a pé. Vista da Torre Eiffel de frente, de graça e sem fila — melhor fotografia da viagem.</div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Trocad%C3%A9ro%2C%20Paris%2C%20Fran%C3%A7a" target="_blank" rel="noopener">📍 Abrir no Maps</a>
   </div>
 
   <div class="card blue">
     <div class="card-time">Check-in</div>
     <div class="card-title">🏨 Check-in no Ibis</div>
     <div class="card-desc">Deixe as malas e descanse um pouco antes da tarde na Torre Eiffel. O hotel fica a 5–10 min a pé da Torre — localização perfeita para o roteiro inteiro.</div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Ibis%20Paris%20Tour%20Eiffel%20Cambronne" target="_blank" rel="noopener">📍 Abrir no Maps</a>
   </div>
 
   <div class="card">
@@ -322,6 +379,7 @@
     <div class="card-desc">O ícone de Paris é seu vizinho! Final de tarde tem filas menores e a luz dourada do pôr do sol é espetacular lá em cima. Com ingresso comprado online, acesse direto pelo elevador do pilar sul.</div>
     <div class="walk">🚶 A pé do hotel — 5 a 10 minutos</div>
     <div class="tip">💡 Mesmo sem ingresso para subir, o Champ de Mars (gramado em frente) é lindo para fotos e passeio. A torre acende as luzes ao entardecer.</div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Torre%20Eiffel%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
   </div>
 
   <div class="card dark">
@@ -346,6 +404,7 @@
     <div class="tip dark-tip">
       ✨ <strong>Espetáculo de luz:</strong> A Torre Eiffel pisca durante 5 minutos a cada hora cheia, até meia-noite. Posicione-se no deck para o momento mágico — geralmente às 22h ou 23h durante o cruzeiro.
     </div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Bateaux%20Parisiens%2C%20Port%20de%20la%20Bourdonnais%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
   </div>
 </div>
 
@@ -384,6 +443,7 @@
     <div class="card-title">🖼️ Museu do Louvre — ingresso 9h30</div>
     <div class="card-desc">Entre pela Pirâmide de vidro com seu ingresso já reservado — direto sem fila. Vá direto à <strong>Mona Lisa: Ala Denon, 1.º andar, Sala 711</strong>. Com 3h30 de visita, dá para ver os grandes destaques com calma.</div>
     <div class="tip">💡 <strong>Rota dos destaques (3h):</strong> Vênus de Milo (Sully) → Vitória de Samotrácia (Denon, escadaria) → Mona Lisa (Denon 711) → percorra as galerias italianas de volta. Não tente ver tudo — o Louvre tem 35.000 obras!</div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Museu%20do%20Louvre%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
   </div>
 
   <div class="card">
@@ -405,6 +465,7 @@
         <span class="sta">Tuileries</span>
       </div>
     </div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=226%20Rue%20de%20Rivoli%2C%2075001%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
   </div>
 
   <div class="card">
@@ -432,12 +493,14 @@
     <div class="tip blue">
       ⛪ <strong>Sobre a Cruz:</strong> A nova flecha e a cruz da catedral foram restauradas e erguidas em 2023. A catedral reabriu em dez/2024. O acesso às <em>torres</em> (e possivelmente à área da cruz) pode estar em fase de abertura gradual. Consulte <strong>notredamedeparis.fr</strong> antes da viagem para confirmar o que estará disponível em junho/2026.
     </div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Notre-Dame%20de%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
   </div>
 
   <div class="card">
     <div class="card-time">17h30 em diante</div>
     <div class="card-title">🌅 Tarde livre no centro histórico</div>
     <div class="card-desc">Explore a <strong>Île de la Cité</strong> e a <strong>Île Saint-Louis</strong> — as duas ilhas do Sena no coração de Paris. Sorvete na Île Saint-Louis (famosa gelateria Berthillon), Sainte-Chapelle nas proximidades, ou simplesmente caminhe pelas margens do rio ao entardecer.</div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=%C3%8Ele%20Saint-Louis%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
   </div>
 </div>
 
@@ -468,13 +531,23 @@
     <div class="tip">
       ⚠️ <strong>Não atravesse a rotatória!</strong> A entrada para o Arco fica nas <em>passagens subterrâneas</em> embaixo da Place de l'Étoile. Procure a escada no meio das faixas de pedestre. Evite tentar cruzar o tráfego — é perigoso e proibido.
     </div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Arco%20do%20Triunfo%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
   </div>
 
   <div class="card">
-    <div class="card-time">11h – 12h30</div>
+    <div class="card-time">11h – 12h</div>
     <div class="card-title">🛍️ Avenue des Champs-Élysées</div>
     <div class="card-desc">Do Arco do Triunfo você desce diretamente a avenida mais famosa do mundo. Lojas, cafés, cinemas históricos e a energia vibrante de Paris. Perfeita para a despedida da cidade.</div>
     <div class="walk">🚶 A pé do Arco — direto na avenida (300 metros)</div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Avenue%20des%20Champs-%C3%89lys%C3%A9es%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
+  </div>
+
+  <div class="card blue">
+    <div class="card-time">12h – 12h30</div>
+    <div class="card-title">⛪ Église de la Madeleine</div>
+    <div class="card-desc">Igreja neoclássica com fachada de templo grego (colunas gigantes, sem cruz visível por fora). Entrada gratuita. Fica bem no fim dos Champs-Élysées, perto da Place de la Concorde — desvio rápido antes do almoço.</div>
+    <div class="walk">🚶 A pé dos Champs-Élysées — ~10 minutos via Rue Royale</div>
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20de%20la%20Madeleine%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
   </div>
 
   <div class="card">
@@ -502,6 +575,7 @@
         <span class="sta">CDG Terminal 2</span>
         <span class="dur">(~60 min total)</span>
       </div>
+      <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=A%C3%A9roporto%20Charles%20de%20Gaulle%20(CDG)%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
     </div>
 
     <div class="metro-box" style="margin-top:0.6rem">
@@ -516,6 +590,7 @@
         <span class="sta">Orly</span>
         <span class="dur">(~55–65 min)</span>
       </div>
+      <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=A%C3%A9roporto%20de%20Orly%20(ORY)%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
     </div>
 
     <div class="tip">
@@ -531,6 +606,25 @@
     document.getElementById('tab-' + id).classList.add('active');
     btn.classList.add('active');
   }
+
+  function buildPrintSummary() {
+    const dayPanels = document.querySelectorAll('.panel[id^="tab-d"]');
+    let html = '<div class="print-only"><h2>Resumo do Roteiro</h2>';
+    dayPanels.forEach(panel => {
+      const badge = panel.querySelector('.day-badge')?.textContent || '';
+      const title = panel.querySelector('.day-title')?.textContent || '';
+      html += `<div class="print-summary-day"><h3>${badge} — ${title}</h3><ul>`;
+      panel.querySelectorAll('.card').forEach(card => {
+        const time = card.querySelector('.card-time')?.textContent || '';
+        const ctitle = card.querySelector('.card-title')?.textContent || '';
+        html += `<li><strong>${time}</strong> — ${ctitle}</li>`;
+      });
+      html += '</ul></div>';
+    });
+    html += '</div>';
+    document.querySelector('.tabs').insertAdjacentHTML('beforebegin', html);
+  }
+  buildPrintSummary();
 </script>
 
 </body>

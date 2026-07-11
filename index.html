@@ -57,6 +57,55 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   border-radius:999px;padding:.28rem .85rem;font-size:.75rem;
   color:#f5d878;margin-top:.75rem;font-weight:600;}
+.hdr-actions{display:flex;gap:.5rem;justify-content:center;margin-top:.6rem;}
+.pdf-btn{display:inline-flex;align-items:center;gap:.35rem;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  color:#fff;border-radius:999px;padding:.28rem .85rem;font-size:.75rem;
+  font-weight:700;cursor:pointer;font-family:inherit;}
+.pdf-btn:hover{background:rgba(255,255,255,.28);}
+
+/* ── DAY TAB BAR ── */
+.day-tab-bar{display:flex;background:var(--navy);border-bottom:3px solid var(--gold);
+  position:sticky;top:0;z-index:600;}
+.day-tab{flex:1;padding:.65rem .25rem;text-align:center;
+  color:rgba(255,255,255,.55);cursor:pointer;font-size:.76rem;font-weight:700;
+  border:none;background:none;border-bottom:3px solid transparent;
+  margin-bottom:-3px;transition:color .2s,border-color .2s;}
+.day-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.day-tab:hover:not(.active){color:rgba(255,255,255,.85);}
+.panel-day{display:none;}
+.panel-day.active{display:block;}
+
+/* ── MAP BUTTON (abrir no Google Maps) ── */
+.map-btn{display:inline-flex;align-items:center;gap:.3rem;
+  background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;
+  border-radius:999px;padding:.4rem .8rem;font-size:.73rem;
+  font-weight:700;text-decoration:none;margin-top:.55rem;}
+
+/* ── RESUMO DA VIAGEM (Visão Geral) ── */
+.ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;padding:.9rem .9rem 0;}
+.ov-card{background:var(--card);border-radius:14px;padding:.9rem;text-align:center;
+  box-shadow:0 1px 6px rgba(0,0,0,.07);border:1px solid var(--border);}
+.ov-icon{font-size:1.4rem;display:block;margin-bottom:.25rem;}
+.ov-label{font-size:.68rem;color:var(--muted);}
+.ov-value{font-size:.85rem;font-weight:800;color:var(--navy);margin-top:.1rem;}
+
+.day-summary-title{font-size:.72rem;font-weight:700;color:var(--muted);
+  letter-spacing:.06em;text-transform:uppercase;padding:1.1rem .9rem .55rem;}
+.day-summary-list{padding:0 .9rem;display:flex;flex-direction:column;gap:.6rem;}
+.day-summary-item{display:flex;align-items:center;gap:.75rem;
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:.75rem .9rem;box-shadow:0 1px 6px rgba(0,0,0,.07);
+  cursor:pointer;text-align:left;width:100%;font-family:inherit;}
+.day-summary-item:active{background:#f8faff;}
+.dsi-badge{background:#eef1f7;color:var(--navy);border-radius:10px;
+  padding:.4rem .5rem;font-size:.6rem;font-weight:800;text-align:center;
+  line-height:1.3;flex-shrink:0;min-width:44px;}
+.dsi-info{flex:1;min-width:0;}
+.dsi-info h4{font-size:.82rem;font-weight:800;color:var(--txt);margin-bottom:.1rem;}
+.dsi-info p{font-size:.7rem;color:var(--muted);}
+.dsi-arr{color:#c0c8d8;font-size:1.1rem;flex-shrink:0;}
 
 /* ── EMERGENCY PILLS ── */
 .sos-row{display:flex;gap:.45rem;padding:.65rem .9rem;overflow-x:auto;
@@ -287,6 +336,30 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   .docs-grid{grid-template-columns:1fr 1fr;}
 }
 
+/* ── PRINT (Exportar PDF) ── */
+@media print{
+  .tab-bar,.day-tab-bar,.pdf-btn,.map-btn,.day-hdr-arr,.dsi-arr{display:none !important;}
+  body{max-width:100%;}
+  .hdr{height:auto;padding:1rem 0;}
+  .hdr-bg,.hdr-overlay{display:none;}
+  .hdr-content{color:var(--navy);}
+  .hdr-content h1{text-shadow:none;}
+  .hdr-content p{color:var(--muted);text-shadow:none;}
+  .hotel-tag{color:var(--navy);background:none;border:1px solid #ccc;backdrop-filter:none;}
+  .panel-day{display:block !important;}
+  .panel-day:not(:first-child){page-break-before:always;}
+  .day-content{display:block !important;}
+  .tog-panel{display:block !important;}
+  .tog-btn .arr{display:none;}
+  .tog-panel.dark{background:#fff !important;}
+  .tog-panel.dark .ph{background:#f3f4f6 !important;}
+  .tog-panel.dark .ph .fr{color:#1e1e35 !important;}
+  .tog-panel.dark .ph .pt{color:var(--navy) !important;}
+  .map-wrap{display:none;}
+  .day-outer{box-shadow:none;border:1px solid #ddd;break-inside:avoid;}
+  .seg{break-inside:avoid;}
+}
+
 /* ── TABS ── */
 .tab-bar{
   display:flex;background:var(--card);border-bottom:2px solid var(--border);
@@ -391,6 +464,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
     <h1>Guia Paris</h1>
     <p>Viagem Marcio, Juliana, Gustavo, Gabriel e Leonardo</p>
     <div class="hotel-tag">🏨 Hotel Ibis · Torre Eiffel</div>
+    <div class="hdr-actions">
+      <button class="pdf-btn" onclick="window.print()">📄 Exportar PDF</button>
+    </div>
   </div>
 </div>
 
@@ -401,6 +477,43 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 </div>
 
 <div id="tab-roteiro">
+
+<!-- ═══ NAVEGAÇÃO POR DIA ═══ -->
+<div class="day-tab-bar">
+  <button class="day-tab active" id="dtab-visao" onclick="goDayTab('visao',this)">Visão<br>Geral</button>
+  <button class="day-tab" id="dtab-d1" onclick="goDayTab('d1',this)">Dia 1<br><small>23/06</small></button>
+  <button class="day-tab" id="dtab-d2" onclick="goDayTab('d2',this)">Dia 2<br><small>24/06</small></button>
+  <button class="day-tab" id="dtab-d3" onclick="goDayTab('d3',this)">Dia 3<br><small>25/06</small></button>
+</div>
+
+<div id="panel-visao" class="panel-day active">
+
+<!-- ═══ RESUMO DA VIAGEM ═══ -->
+<div class="ov-grid">
+  <div class="ov-card"><span class="ov-icon">✈️</span><div class="ov-label">Chegada</div><div class="ov-value">23 Jun</div></div>
+  <div class="ov-card"><span class="ov-icon">🛫</span><div class="ov-label">Partida</div><div class="ov-value">25 Jun (tarde)</div></div>
+  <div class="ov-card"><span class="ov-icon">🏨</span><div class="ov-label">Hotel</div><div class="ov-value">Ibis · Eiffel</div></div>
+  <div class="ov-card"><span class="ov-icon">🎯</span><div class="ov-label">Atrações</div><div class="ov-value">7 locais</div></div>
+</div>
+
+<div class="day-summary-title">📅 Resumo dos 3 dias</div>
+<div class="day-summary-list">
+  <button class="day-summary-item" onclick="goDayTab('d1',document.getElementById('dtab-d1'))">
+    <div class="dsi-badge">DIA 1<br>23/06</div>
+    <div class="dsi-info"><h4>Manhã Livre · Torre Eiffel · Cruzeiro</h4><p>Explorar a cidade · Torre à tarde · Cruzeiro noturno</p></div>
+    <span class="dsi-arr">›</span>
+  </button>
+  <button class="day-summary-item" onclick="goDayTab('d2',document.getElementById('dtab-d2'))">
+    <div class="dsi-badge">DIA 2<br>24/06</div>
+    <div class="dsi-info"><h4>Louvre · Notre-Dame · Le Nesle</h4><p>Manhã no Louvre · Tarde em Notre-Dame · Le Nesle</p></div>
+    <span class="dsi-arr">›</span>
+  </button>
+  <button class="day-summary-item" onclick="goDayTab('d3',document.getElementById('dtab-d3'))">
+    <div class="dsi-badge">DIA 3<br>25/06</div>
+    <div class="dsi-info"><h4>Arco do Triunfo · Champs-Élysées · Partida</h4><p>Manhã no Arco · Champs-Élysées · Voo à tarde</p></div>
+    <span class="dsi-arr">›</span>
+  </button>
+</div>
 
 <!-- ═══ EMERGÊNCIAS ═══ -->
 <div class="sos-row">
@@ -497,9 +610,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   </div>
 </div>
 
+</div><!-- /panel-visao -->
+
 <!-- ═══════════════════════════════════════
      DIA 1 · 23/06
 ═══════════════════════════════════════ -->
+<div id="panel-d1" class="panel-day">
 <div class="day-outer">
 <button class="day-hdr-btn" onclick="openDay('d1',this)">
   <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">1</span></div>
@@ -540,6 +656,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
           <li><span class="step-num">1</span><span>Chegue ao hotel, descanse, guarde as malas. Se o quarto não estiver pronto, deixe as malas na recepção — diga: <em>"Puis-je laisser mes bagages ?"</em> (Pui-jeh lay-SAY may ba-GAJH?)</span></li>
           <li><span class="step-num">2</span><span>Tome um café e saia para explorar a cidade. A manhã é livre — não há reservas de hora marcada.</span></li>
         </ul>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8534,2.2965" target="_blank" rel="noopener">📍 Abrir no Maps</a>
       </div>
     </div>
 
@@ -553,6 +670,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
           <li><span class="step-num">4</span><span><strong>Champ de Mars</strong> — o grande parque em frente à Torre. Ótimo lugar para um piquenique no gramado com vista para a torre.</span></li>
         </ul>
         <div class="tip-b">💡 A tarde será na Torre Eiffel (15h). Use a manhã para passear sem pressa, almoçar num café local e voltar ao hotel antes das 14h30.</div>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8614,2.2893" target="_blank" rel="noopener">📍 Abrir no Maps (Trocadéro)</a>
       </div>
     </div>
 
@@ -585,6 +703,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
           <li><span class="step-num">5</span><span>Ao descer, use as escadas (do 2.º ao 1.º andar) — sem fila e muito mais divertido.</span></li>
         </ul>
         <div class="info-b">ℹ️ Final de tarde (16h–19h) = luz dourada do pôr do sol. Temperatura mais fria no topo — leve uma camisa de manga longa.</div>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8584,2.2945" target="_blank" rel="noopener">📍 Abrir no Maps</a>
       </div>
     </div>
 
@@ -615,16 +734,19 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
           <li><span class="step-num">3</span><span>A Torre pisca por <strong>5 minutos a cada hora cheia</strong> (até meia-noite) — prepare a câmera!</span></li>
         </ul>
         <div class="tip-b">💡 Leve uma camada extra de roupa — venta no rio à noite. Comentários em vários idiomas (incluindo português em alguns barcos).</div>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8571,2.2953" target="_blank" rel="noopener">📍 Abrir no Maps</a>
       </div>
     </div>
 
   </div>
 </div>
 </div>
+</div><!-- /panel-d1 -->
 
 <!-- ═══════════════════════════════════════
      DIA 2 · 24/06
 ═══════════════════════════════════════ -->
+<div id="panel-d2" class="panel-day">
 <div class="day-outer">
 <button class="day-hdr-btn" onclick="openDay('d2',this)">
   <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">2</span></div>
@@ -697,6 +819,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
           <li><span class="step-num">4</span><span><strong>Vitória de Samotrácia · Ala Denon · Escadaria Daru:</strong> Estátua com asas, sem cabeça — espetacular no alto da escadaria.</span></li>
         </ul>
         <div class="tip-b">💡 Roteiro 3h: Mona Lisa → Vênus de Milo → Vitória de Samotrácia → explore à vontade. Às 13h vá para Notre-Dame (RER C de Saint-Michel, a 10 min a pé do Louvre).</div>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8606,2.3376" target="_blank" rel="noopener">📍 Abrir no Maps</a>
       </div>
     </div>
 
@@ -736,6 +859,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
           <li><span class="step-num">3</span><span>Torres e Cruz da flecha: verifique disponibilidade em <em>notredamedeparis.fr</em> — sendo liberado gradualmente, pode exigir reserva e ingresso.</span></li>
         </ul>
         <div class="info-b">ℹ️ A catedral fica na Île de la Cité — uma ilha no meio do Rio Sena. Após a visita, caminhe pelas margens para ver as torres refletidas na água.</div>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8530,2.3499" target="_blank" rel="noopener">📍 Abrir no Maps</a>
       </div>
     </div>
 
@@ -771,6 +895,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
           <div class="fr-pr">Luh gah-TOH oh sho-ko-LAH shoh, seel voo PLAY — say ma pruh-MYAIR fwa!</div>
           <div class="fr-pt">= O bolo com chocolate quente, por favor — é a minha primeira vez!</div>
         </div>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8527,2.3394" target="_blank" rel="noopener">📍 Abrir no Maps</a>
       </div>
     </div>
 
@@ -789,10 +914,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   </div>
 </div>
 </div>
+</div><!-- /panel-d2 -->
 
 <!-- ═══════════════════════════════════════
      DIA 3 · 25/06
 ═══════════════════════════════════════ -->
+<div id="panel-d3" class="panel-day">
 <div class="day-outer">
 <button class="day-hdr-btn" onclick="openDay('d3',this)">
   <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">3</span></div>
@@ -855,6 +982,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
           <li><span class="step-num">4</span><span>Embaixo do Arco: <strong>Chama Eterna</strong> do Soldado Desconhecido, acesa desde 1921.</span></li>
         </ul>
         <div class="tip-b">💡 De manhã (10h) tem bem menos gente. A luz da manhã sobre Paris lá do topo é linda. Não traversar a rotatória a pé — use o túnel subterrâneo!</div>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8738,2.2950" target="_blank" rel="noopener">📍 Abrir no Maps</a>
       </div>
     </div>
 
@@ -874,6 +1002,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
           <li><span class="step-num">3</span><span>Últimas compras: farmácia francesa (ótimos cosméticos baratos!), souvenirs para levar para Portugal.</span></li>
         </ul>
         <div class="tip-b">💡 A Champs-Élysées parte do pé do Arco — você desceu do topo e está no início da avenida mais famosa do mundo. Aproveite a despedida de Paris!</div>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8669,2.3080" target="_blank" rel="noopener">📍 Abrir no Maps</a>
       </div>
     </div>
 
@@ -887,10 +1016,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
         <ul>
           <li><span class="step-num">1</span><span>RER C de <strong class="sta">Champ de Mars</strong> → <strong class="sta">Saint-Michel-Notre-Dame</strong> → troca para <span class="ml-tag" style="background:#1976d2;border-radius:3px">B</span> <strong>RER B</strong> direção <span class="dir-box">AÉROPORT CDG 2</span> → 35–40 min. <strong>Total: ~60 min.</strong> Bilhete: ~€11,80.</span></li>
         </ul>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=A%C3%A9roport%20Charles%20de%20Gaulle%20(CDG)%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
         <div class="divider">AEROPORTO ORLY (ORY)</div>
         <ul>
           <li><span class="step-num">1</span><span>Linha 6 <strong class="sta">Bir-Hakeim</strong> direção <span class="dir-box">NATION</span> → <strong class="sta">Montparnasse-Bienvenüe</strong> (6 paradas) → <strong>Orlybus</strong> direto para Orly (~30 min). <strong>Total: ~55 min.</strong></span></li>
         </ul>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=A%C3%A9roport%20d'Orly%20(ORY)%2C%20Paris" target="_blank" rel="noopener">📍 Abrir no Maps</a>
         <div class="warn-b">⚠️ Parta do hotel com pelo menos <strong>2h30 de antecedência</strong>. Não arrisque — atrasos no trem e filas na segurança são comuns.</div>
       </div>
     </div>
@@ -898,6 +1029,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   </div>
 </div>
 </div>
+</div><!-- /panel-d3 -->
 
 <!-- FOOTER -->
 <div class="footer">
@@ -1078,6 +1210,21 @@ function initMap(id){
     L.polyline([arc,[48.8718,2.2980],[48.8698,2.3010],[48.8680,2.3050],champsM],{color:WALK,weight:3,dashArray:'6,5'}).addTo(m);
     maps[id]=m;
   }
+}
+
+/* ══════════════════════════════════
+   NAVEGAÇÃO POR DIA (barra azul)
+══════════════════════════════════ */
+function goDayTab(id,btn){
+  document.querySelectorAll('.panel-day').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.day-tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id!=='visao'){
+    var hdrBtn=document.querySelector('#panel-'+id+' .day-hdr-btn');
+    if(hdrBtn && !hdrBtn.classList.contains('open')) openDay(id,hdrBtn);
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 /* ══════════════════════════════════
