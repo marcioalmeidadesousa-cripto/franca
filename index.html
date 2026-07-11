@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guia Paris · Jun 2026</title>
+<title>Guia Paris · Jul 2026</title>
 
 <!-- Favicon (aba do browser) -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231b3568'/><text y='78' x='50' text-anchor='middle' font-size='68'>🗼</text></svg>">
@@ -481,35 +481,41 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 <!-- ═══ NAVEGAÇÃO POR DIA ═══ -->
 <div class="day-tab-bar">
   <button class="day-tab active" id="dtab-visao" onclick="goDayTab('visao',this)">Visão<br>Geral</button>
-  <button class="day-tab" id="dtab-d1" onclick="goDayTab('d1',this)">Dia 1<br><small>23/06</small></button>
-  <button class="day-tab" id="dtab-d2" onclick="goDayTab('d2',this)">Dia 2<br><small>24/06</small></button>
-  <button class="day-tab" id="dtab-d3" onclick="goDayTab('d3',this)">Dia 3<br><small>25/06</small></button>
+  <button class="day-tab" id="dtab-d0" onclick="goDayTab('d0',this)">Dia 1<br><small>22/07</small></button>
+  <button class="day-tab" id="dtab-d1" onclick="goDayTab('d1',this)">Dia 2<br><small>23/07</small></button>
+  <button class="day-tab" id="dtab-d2" onclick="goDayTab('d2',this)">Dia 3<br><small>24/07</small></button>
+  <button class="day-tab" id="dtab-d3" onclick="goDayTab('d3',this)">Dia 4<br><small>25/07</small></button>
 </div>
 
 <div id="panel-visao" class="panel-day active">
 
 <!-- ═══ RESUMO DA VIAGEM ═══ -->
 <div class="ov-grid">
-  <div class="ov-card"><span class="ov-icon">✈️</span><div class="ov-label">Chegada</div><div class="ov-value">23 Jun</div></div>
-  <div class="ov-card"><span class="ov-icon">🛫</span><div class="ov-label">Partida</div><div class="ov-value">25 Jun (tarde)</div></div>
-  <div class="ov-card"><span class="ov-icon">🏨</span><div class="ov-label">Hotel</div><div class="ov-value">Ibis · Eiffel</div></div>
-  <div class="ov-card"><span class="ov-icon">🎯</span><div class="ov-label">Atrações</div><div class="ov-value">7 locais</div></div>
+  <div class="ov-card"><span class="ov-icon">✈️</span><div class="ov-label">Chegada</div><div class="ov-value">22 Jul</div></div>
+  <div class="ov-card"><span class="ov-icon">🛫</span><div class="ov-label">Partida</div><div class="ov-value">25 Jul (tarde)</div></div>
+  <div class="ov-card"><span class="ov-icon">🏨</span><div class="ov-label">Hotéis</div><div class="ov-value">Chessy → Eiffel</div></div>
+  <div class="ov-card"><span class="ov-icon">🎯</span><div class="ov-label">Atrações</div><div class="ov-value">8 locais</div></div>
 </div>
 
-<div class="day-summary-title">📅 Resumo dos 3 dias</div>
+<div class="day-summary-title">📅 Resumo dos 4 dias</div>
 <div class="day-summary-list">
+  <button class="day-summary-item" onclick="goDayTab('d0',document.getElementById('dtab-d0'))">
+    <div class="dsi-badge">DIA 1<br>22/07</div>
+    <div class="dsi-info"><h4>Chegada · Hotel Chessy · Disneyland Park</h4><p>Voo Portugal → CDG · Transfer até Chessy · Dia inteiro no parque</p></div>
+    <span class="dsi-arr">›</span>
+  </button>
   <button class="day-summary-item" onclick="goDayTab('d1',document.getElementById('dtab-d1'))">
-    <div class="dsi-badge">DIA 1<br>23/06</div>
-    <div class="dsi-info"><h4>Manhã Livre · Torre Eiffel · Cruzeiro</h4><p>Explorar a cidade · Torre à tarde · Cruzeiro noturno</p></div>
+    <div class="dsi-badge">DIA 2<br>23/07</div>
+    <div class="dsi-info"><h4>Chessy → Ibis · Torre Eiffel · Cruzeiro</h4><p>Traslado para Paris · Torre à tarde · Cruzeiro noturno</p></div>
     <span class="dsi-arr">›</span>
   </button>
   <button class="day-summary-item" onclick="goDayTab('d2',document.getElementById('dtab-d2'))">
-    <div class="dsi-badge">DIA 2<br>24/06</div>
+    <div class="dsi-badge">DIA 3<br>24/07</div>
     <div class="dsi-info"><h4>Louvre · Notre-Dame · Le Nesle</h4><p>Manhã no Louvre · Tarde em Notre-Dame · Le Nesle</p></div>
     <span class="dsi-arr">›</span>
   </button>
   <button class="day-summary-item" onclick="goDayTab('d3',document.getElementById('dtab-d3'))">
-    <div class="dsi-badge">DIA 3<br>25/06</div>
+    <div class="dsi-badge">DIA 4<br>25/07</div>
     <div class="dsi-info"><h4>Arco do Triunfo · Champs-Élysées · Partida</h4><p>Manhã no Arco · Champs-Élysées · Voo à tarde</p></div>
     <span class="dsi-arr">›</span>
   </button>
@@ -550,6 +556,15 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 <div class="tog-panel green-bg" id="panel-ing">
   <div class="ing-note">⚠️ <strong>Compre ANTES de viajar!</strong> Torre Eiffel e Louvre esgotam semanas antes. Sem ingresso online = horas de fila ou entrada negada. Abra cada link, escolha a data e o horário.</div>
   <div class="ing-grid">
+
+    <div class="ing-card">
+      <div class="ic-icon">🏰</div>
+      <div class="ic-name">Disneyland Park</div>
+      <div class="ic-price">Ingresso 1 dia / 1 parque</div>
+      <div class="ic-when">⏰ Compra online obrigatória — data e parque marcados no ingresso.</div>
+      <div class="ic-tip">💡 Hotel parceiro (Quality Aparthotel) não dá acesso à Extra Magic Time — parque abre 9h30.</div>
+      <a class="btn-lnk" href="https://www.disneylandparis.com" target="_blank">🔗 disneylandparis.com</a>
+    </div>
 
     <div class="ing-card">
       <div class="ic-icon">🗼</div>
@@ -613,15 +628,115 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 </div><!-- /panel-visao -->
 
 <!-- ═══════════════════════════════════════
-     DIA 1 · 23/06
+     DIA 1 · 22/07 · DISNEY
+═══════════════════════════════════════ -->
+<div id="panel-d0" class="panel-day">
+<div class="day-outer">
+<button class="day-hdr-btn" onclick="openDay('d0',this)">
+  <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">1</span></div>
+  <div class="day-hdr-info">
+    <h3>Chegada · Hotel Chessy · Disneyland Park</h3>
+    <p>Voo Portugal → CDG · Transfer até Chessy · Dia inteiro no parque</p>
+  </div>
+  <div class="day-thumb">
+    <img data-wiki="Disneyland Park (Paris)" alt="Disneyland Park">
+    <div class="dt-fb">🏰</div>
+  </div>
+  <span class="day-hdr-arr">›</span>
+</button>
+<div class="day-sep"></div>
+<div class="att-grid">
+  <div class="att-tile"><span class="at-icon">✈️</span><span class="at-name">Voo → CDG</span><span class="at-time">06h00</span></div>
+  <div class="att-tile"><span class="at-icon">🚌</span><span class="at-name">Transfer Chessy</span><span class="at-time">~09h30</span></div>
+  <div class="att-tile"><span class="at-icon">🏨</span><span class="at-name">Check-in hotel</span><span class="at-time">~10h30</span></div>
+  <div class="att-tile"><span class="at-icon">🏰</span><span class="at-name">Disneyland Park</span><span class="at-time">11h – 22h45</span></div>
+</div>
+<div class="day-content" id="content-d0">
+
+  <div class="map-wrap">
+    <div id="map0" class="map-div"></div>
+    <div class="map-legend">
+      <div class="ml-row"><span class="ml-dot" style="background:#1b3568"></span> Aeroporto / Hotel</div>
+      <div class="ml-row"><span class="ml-dot" style="background:var(--gold)"></span> Disneyland Park</div>
+      <div class="ml-row"><span class="ml-dash" style="border-color:#c2185b"></span> Shuttle</div>
+    </div>
+  </div>
+
+  <div class="steps">
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">VOO</span> ✈️ Portugal → Paris (CDG) · 06h00</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Voo de ~2h15. A França está <strong>1h à frente</strong> de Portugal, então a chegada estimada ao CDG é por volta das <strong>09h15–09h30</strong> (hora local). Confirme o horário exato no bilhete.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header rerc-h"><span class="mode-badge" style="background:#c2185b;color:#fff">SHUTTLE</span> CDG → Hotel (Chessy) · ~50–60 min</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span><strong>Magical Shuttle / VEA</strong> — vai direto do terminal até os hotéis da Disneyland Paris, sem trocar de transporte. Ideal com bagagem. Balcão de atendimento entre os Terminais 2E e 2F.</span></li>
+          <li><span class="step-num">2</span><span>Saídas a cada 45 min a partir das 9h. Reserve com antecedência em <em>magicalshuttle.co.uk</em>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">CHECK-IN</span> 🏨 Quality Aparthotel Val d'Europe</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>9 Rue de la Galmy, 77700 Chessy. Deixe as malas — não precisa esperar o quarto ficar pronto, já siga direto para o parque.</span></li>
+        </ul>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=9%20Rue%20de%20la%20Galmy%2C%2077700%20Chessy" target="_blank" rel="noopener">📍 Abrir no Maps</a>
+      </div>
+    </div>
+
+    <!-- FOTO DISNEYLAND -->
+    <div class="spot-photo-wrap">
+      <img data-wiki="Disneyland Park (Paris)" data-wiki-size="1200" src="" style="display:none" alt="Disneyland Park">
+      <div class="spot-photo-fb" style="background:linear-gradient(135deg,#0d3b66,#1b5fa8)">🏰</div>
+      <div class="spot-photo-label">🏰 Disneyland Park · Dia inteiro</div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">DIA INTEIRO</span> 🏰 Disneyland Park · 11h – encerramento</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Shuttle <strong>gratuito</strong> do hotel até a portaria do parque — a cada 20 min, ~10 minutos de trajeto.</span></li>
+          <li><span class="step-num">2</span><span>Aproveitem o dia inteiro: castelo da Bela Adormecida, atrações clássicas e o espetáculo noturno na fachada do castelo ao anoitecer.</span></li>
+          <li><span class="step-num">3</span><span>Parque abre às 9h30. Julho é pico de verão — fechamento estimado ~22h45, com filas maiores durante o dia. Confirme o horário exato mais perto da viagem.</span></li>
+        </ul>
+        <div class="info-b">ℹ️ Como o hotel é parceiro (não é um hotel oficial Disney "on-site"), não há acesso à Extra Magic Time (abertura antecipada, 8h30–9h30). Considerem uma pausa no meio do dia — julho costuma ter bastante movimento.</div>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Disneyland%20Park%2C%20Chessy" target="_blank" rel="noopener">📍 Abrir no Maps</a>
+      </div>
+    </div>
+
+    <div class="seg">
+      <div class="seg-header walk-h"><span class="mode-badge walk-badge">NOITE</span> Retorno ao hotel</div>
+      <div class="seg-body">
+        <ul>
+          <li><span class="step-num">1</span><span>Mesmo shuttle gratuito de volta ao hotel — funciona até o fechamento do parque. Amanhã começa cedo (saída às 8h)!</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+</div><!-- /panel-d0 -->
+
+<!-- ═══════════════════════════════════════
+     DIA 2 · 23/07
 ═══════════════════════════════════════ -->
 <div id="panel-d1" class="panel-day">
 <div class="day-outer">
 <button class="day-hdr-btn" onclick="openDay('d1',this)">
-  <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">1</span></div>
+  <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">2</span></div>
   <div class="day-hdr-info">
-    <h3>Manhã Livre · Torre Eiffel · Cruzeiro</h3>
-    <p>Explorar a cidade · Torre à tarde · Cruzeiro noturno</p>
+    <h3>Chessy → Ibis · Torre Eiffel · Cruzeiro</h3>
+    <p>Traslado para Paris · Torre à tarde · Cruzeiro noturno</p>
   </div>
   <div class="day-thumb">
     <img data-wiki="Eiffel Tower" alt="Torre Eiffel">
@@ -631,7 +746,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 </button>
 <div class="day-sep"></div>
 <div class="att-grid">
-  <div class="att-tile"><span class="at-icon">🗺️</span><span class="at-name">Explorar Paris</span><span class="at-time">Manhã livre</span></div>
+  <div class="att-tile"><span class="at-icon">🚉</span><span class="at-name">Chessy → Ibis</span><span class="at-time">8h – 9h30</span></div>
+  <div class="att-tile"><span class="at-icon">🗺️</span><span class="at-name">Explorar Paris</span><span class="at-time">9h30 – 15h</span></div>
   <div class="att-tile"><span class="at-icon">🗼</span><span class="at-name">Torre Eiffel</span><span class="at-time">15h – 18h</span></div>
   <div class="att-tile"><span class="at-icon">⛵</span><span class="at-name">Cruzeiro Sena</span><span class="at-time">21h30</span></div>
 </div>
@@ -650,26 +766,29 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   <div class="steps">
 
     <div class="seg">
-      <div class="seg-header spot-h"><span class="mode-badge spot-badge">CHEGADA</span> Check-in no Hotel Ibis</div>
+      <div class="seg-header metro-h"><span class="mode-badge" style="background:#c2185b;color:#fff">RER A</span> Chessy → Ibis (Torre Eiffel) · saia às 8h</div>
       <div class="seg-body">
         <ul>
-          <li><span class="step-num">1</span><span>Chegue ao hotel, descanse, guarde as malas. Se o quarto não estiver pronto, deixe as malas na recepção — diga: <em>"Puis-je laisser mes bagages ?"</em> (Pui-jeh lay-SAY may ba-GAJH?)</span></li>
-          <li><span class="step-num">2</span><span>Tome um café e saia para explorar a cidade. A manhã é livre — não há reservas de hora marcada.</span></li>
+          <li><span class="step-num">1</span><span>Café da manhã e check-out cedo no hotel em Chessy. O objetivo é <strong>não sair muito tarde — até 8h no máximo</strong> — para aproveitar o dia inteiro em Paris.</span></li>
+          <li><span class="step-num">2</span><span>Caminhe ~10 min até a estação <strong class="sta">Val d'Europe</strong>. <strong>RER A</strong> direção <span class="dir-box">PARIS</span> → 4 paradas → <strong class="sta">Charles de Gaulle–Étoile</strong> (~40 min).</span></li>
+          <li><span class="step-num">3</span><span>Troque para a <span class="ml-tag t6">6</span> <strong>Linha 6</strong> → 4 paradas → <strong class="sta">Bir-Hakeim</strong>. Chegada estimada ao hotel: <strong>~9h15–9h30</strong>.</span></li>
         </ul>
-        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8534,2.2965" target="_blank" rel="noopener">📍 Abrir no Maps</a>
+        <div class="tip-b">💡 Chegue ao Ibis, deixe as malas e tome um café rápido — se o quarto não estiver pronto, diga: <em>"Puis-je laisser mes bagages ?"</em> (Pui-jeh lay-SAY may ba-GAJH?)</div>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8534,2.2965" target="_blank" rel="noopener">📍 Abrir no Maps (Ibis)</a>
       </div>
     </div>
 
     <div class="seg">
-      <div class="seg-header spot-h"><span class="mode-badge spot-badge">MANHÃ LIVRE</span> 🗺️ Explorar Paris à vontade</div>
+      <div class="seg-header spot-h"><span class="mode-badge spot-badge">09h30 – 15h</span> 🗺️ Explorar Paris à vontade</div>
       <div class="seg-body">
         <ul>
-          <li><span class="step-num">1</span><span><strong>Pont de Bir-Hakeim</strong> — a ponte de ferro com os trilhos do metro passando por cima. Vista deslumbrante da Torre Eiffel. A 5 min do hotel a pé.</span></li>
-          <li><span class="step-num">2</span><span><strong>Trocadéro</strong> — o miradouro frontal à Torre Eiffel, com a melhor foto da torre ao fundo. Cruzar a ponte Bir-Hakeim e subir pela Av. du Président Kennedy (~20 min a pé ou L6 2 paradas).</span></li>
-          <li><span class="step-num">3</span><span><strong>Île aux Cygnes</strong> — pequena ilha artificial no meio do Sena, acessível pela Pont de Grenelle. Tem uma mini Estátua da Liberdade no fim da ilha!</span></li>
-          <li><span class="step-num">4</span><span><strong>Champ de Mars</strong> — o grande parque em frente à Torre. Ótimo lugar para um piquenique no gramado com vista para a torre.</span></li>
+          <li><span class="step-num">1</span><span>Hoje o <strong>Leonardo</strong> (irmão da Juliana) está com vocês — e ele já conhece bem Paris. Aproveitem para passear com calma e experimentar coisas diferentes: um bistrô de bairro, uma padaria francesa, algo que ele já conheça e recomende.</span></li>
+          <li><span class="step-num">2</span><span><strong>Pont de Bir-Hakeim</strong> — a ponte de ferro com os trilhos do metro passando por cima. Vista deslumbrante da Torre Eiffel. A 5 min do hotel a pé.</span></li>
+          <li><span class="step-num">3</span><span><strong>Trocadéro</strong> — o miradouro frontal à Torre Eiffel, com a melhor foto da torre ao fundo. Cruzar a ponte Bir-Hakeim e subir pela Av. du Président Kennedy (~20 min a pé ou L6 2 paradas).</span></li>
+          <li><span class="step-num">4</span><span><strong>Île aux Cygnes</strong> — pequena ilha artificial no meio do Sena, acessível pela Pont de Grenelle. Tem uma mini Estátua da Liberdade no fim da ilha!</span></li>
+          <li><span class="step-num">5</span><span><strong>Champ de Mars</strong> — o grande parque em frente à Torre. Ótimo lugar para um piquenique no gramado com vista para a torre.</span></li>
         </ul>
-        <div class="tip-b">💡 A tarde será na Torre Eiffel (15h). Use a manhã para passear sem pressa, almoçar num café local e voltar ao hotel antes das 14h30.</div>
+        <div class="tip-b">💡 A tarde será na Torre Eiffel (15h). Almocem num café local com o Leonardo e voltem ao hotel antes das 14h30.</div>
         <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=48.8614,2.2893" target="_blank" rel="noopener">📍 Abrir no Maps (Trocadéro)</a>
       </div>
     </div>
@@ -744,12 +863,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 </div><!-- /panel-d1 -->
 
 <!-- ═══════════════════════════════════════
-     DIA 2 · 24/06
+     DIA 2 · 24/07
 ═══════════════════════════════════════ -->
 <div id="panel-d2" class="panel-day">
 <div class="day-outer">
 <button class="day-hdr-btn" onclick="openDay('d2',this)">
-  <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">2</span></div>
+  <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">3</span></div>
   <div class="day-hdr-info">
     <h3>Louvre · Notre-Dame · Le Nesle</h3>
     <p>Manhã no Louvre · Tarde em Notre-Dame · Le Nesle</p>
@@ -917,12 +1036,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 </div><!-- /panel-d2 -->
 
 <!-- ═══════════════════════════════════════
-     DIA 3 · 25/06
+     DIA 3 · 25/07
 ═══════════════════════════════════════ -->
 <div id="panel-d3" class="panel-day">
 <div class="day-outer">
 <button class="day-hdr-btn" onclick="openDay('d3',this)">
-  <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">3</span></div>
+  <div class="day-num-box"><span class="dnb-l">DIA</span><span class="dnb-n">4</span></div>
   <div class="day-hdr-info">
     <h3>Arco do Triunfo · Champs-Élysées · Partida</h3>
     <p>Manhã no Arco · Champs-Élysées · Voo à tarde</p>
@@ -1034,7 +1153,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 <!-- FOOTER -->
 <div class="footer">
   <div class="bon">Boa viagem! Bon voyage! 🗼</div>
-  Guia criado para a viagem de 23–25 junho 2026 · Hotel Ibis próximo à Torre Eiffel<br>
+  Guia criado para a viagem de 22–25 julho 2026 · Hotel Ibis próximo à Torre Eiffel<br>
   Preços e horários sujeitos a alteração — confirme nos sites oficiais antes de viajar
 </div>
 
@@ -1162,6 +1281,18 @@ function initMap(id){
   if(maps[id]){maps[id].invalidateSize();return;}
   var tiles='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   var attr='© OpenStreetMap';
+
+  if(id==='d0'){
+    var m=L.map('map0',{zoomControl:true}).setView([48.930,2.660],9);
+    L.tileLayer(tiles,{attribution:attr,maxZoom:19}).addTo(m);
+    var cdg=[49.0097,2.5479],hotel0=[48.8710,2.7860],disney=[48.8722,2.7758];
+    L.marker(cdg,{icon:mkIcon('✈️',NAVY)}).addTo(m).bindPopup('<b>Aeroporto CDG</b><br>Chegada ~09h15–09h30');
+    L.marker(hotel0,{icon:mkIcon('🏨',NAVY)}).addTo(m).bindPopup('<b>Quality Aparthotel Val d\'Europe</b><br>9 Rue de la Galmy, Chessy');
+    L.marker(disney,{icon:mkIcon('🏰',GOLD)}).addTo(m).bindPopup('<b>Disneyland Park</b><br>11h – encerramento');
+    L.polyline([cdg,hotel0],{color:'#c2185b',weight:3,dashArray:'6,5'}).addTo(m);
+    L.polyline([hotel0,disney],{color:'#c2185b',weight:3,dashArray:'6,5'}).addTo(m);
+    maps[id]=m;
+  }
 
   if(id==='d1'){
     var m=L.map('map1',{zoomControl:true}).setView([48.857,2.295],14);
