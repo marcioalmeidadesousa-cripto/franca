@@ -8,9 +8,9 @@
   "theme_color": "#1b3568",
   "icons": [
     {
-      "src": "eiffel-icon.jpg",
-      "sizes": "any",
-      "type": "image/jpeg",
+      "src": "logo-paris.png",
+      "sizes": "400x400",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
