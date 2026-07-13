@@ -338,7 +338,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
 
 /* ── PRINT (Exportar PDF) ── */
 @media print{
-  .tab-bar,.day-tab-bar,.pdf-btn,.map-btn,.day-hdr-arr,.dsi-arr{display:none !important;}
+  .tab-bar,.day-tab-bar,.pdf-btn,.map-btn,.day-hdr-arr,.dsi-arr,.places-ov{display:none !important;}
   body{max-width:100%;}
   .hdr{height:auto;padding:1rem 0;}
   .hdr-bg,.hdr-overlay{display:none;}
@@ -452,6 +452,34 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   display:flex;align-items:center;justify-content:center;line-height:1;
 }
 .lb-lbl{color:rgba(255,255,255,.65);font-size:.8rem;margin-top:.7rem;}
+
+/* ── TODOS OS LUGARES (overlay) ── */
+.places-ov{display:none;position:fixed;inset:0;background:var(--bg);z-index:9000;flex-direction:column;}
+.places-ov.open{display:flex;}
+.places-hdr{background:var(--navy);color:#fff;padding:1rem 1rem .9rem;display:flex;align-items:center;gap:.75rem;box-shadow:0 2px 10px rgba(0,0,0,.15);flex-shrink:0;}
+.places-hdr h2{font-size:1.05rem;font-weight:800;flex:1;}
+.places-close{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:50%;width:34px;height:34px;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;flex-shrink:0;}
+.places-filters{display:flex;gap:.4rem;padding:.75rem .9rem;overflow-x:auto;background:var(--card);border-bottom:1px solid var(--border);scrollbar-width:none;flex-shrink:0;}
+.places-filters::-webkit-scrollbar{display:none;}
+.pf-chip{border:1px solid var(--border);background:#eef1f7;color:var(--navy);border-radius:999px;padding:.35rem .85rem;font-size:.72rem;font-weight:700;white-space:nowrap;cursor:pointer;font-family:inherit;flex-shrink:0;}
+.pf-chip.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+.places-body{flex:1;overflow-y:auto;padding:.9rem .9rem 2rem;}
+.places-day-block{margin-bottom:1.3rem;}
+.places-day-title{font-size:.72rem;font-weight:800;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.55rem;}
+.places-day-title .pdt-chip{background:var(--navy);color:#fff;border-radius:6px;padding:.2rem .55rem;font-size:.65rem;}
+.place-list{display:flex;flex-direction:column;gap:.6rem;}
+.place-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:.8rem .9rem;box-shadow:0 1px 6px rgba(0,0,0,.07);display:flex;gap:.75rem;align-items:flex-start;}
+.place-icon{font-size:1.5rem;line-height:1.3;flex-shrink:0;}
+.place-info{flex:1;min-width:0;}
+.place-name-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+.place-name{font-size:.82rem;font-weight:800;color:var(--txt);}
+.place-cat-badge{font-size:.6rem;font-weight:800;padding:.12rem .45rem;border-radius:999px;text-transform:uppercase;letter-spacing:.3px;}
+.pc-atracao{background:#eff6ff;color:#1d4ed8;}
+.pc-comida{background:#fdf2f8;color:#a3175c;}
+.pc-hotel{background:#f0fdf4;color:#166534;}
+.place-time{font-size:.68rem;color:var(--muted);margin-top:.15rem;}
+.place-desc{font-size:.73rem;color:var(--txt2);margin-top:.2rem;line-height:1.5;}
+.place-photo-tag{font-size:.62rem;color:#a3760a;font-weight:700;margin-top:.3rem;}
 </style>
 </head>
 <body>
@@ -466,6 +494,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
     <div class="hotel-tag">🏨 Hotel Ibis · Torre Eiffel</div>
     <div class="hdr-actions">
       <button class="pdf-btn" onclick="window.print()">📄 Exportar PDF</button>
+      <button class="pdf-btn" onclick="openPlaces()">📍 Todos os Lugares</button>
     </div>
   </div>
 </div>
@@ -1208,6 +1237,16 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   <div class="lb-lbl" id="lb-lbl"></div>
 </div>
 
+<!-- ═══ TODOS OS LUGARES ═══ -->
+<div class="places-ov" id="places-ov">
+  <div class="places-hdr">
+    <h2>📍 Todos os Lugares</h2>
+    <button class="places-close" onclick="closePlaces()">×</button>
+  </div>
+  <div class="places-filters" id="places-filters"></div>
+  <div class="places-body" id="places-body"></div>
+</div>
+
 <script>
 var maps={};
 var L1='#f5a000',L4='#a0006e',L6='#5fa832',RC='#cc0000',WALK='#2e7d32',NAVY='#1b3568',GOLD='#c8a030';
@@ -1505,6 +1544,92 @@ function deleteDoc(name){
     body:JSON.stringify({prefixes:[name]})
   }).then(function(){loadDocs();})
   .catch(function(e){alert('Erro ao apagar: '+e.message);});
+}
+
+/* ══════════════════════════════════
+   TODOS OS LUGARES
+══════════════════════════════════ */
+var DAY_LABELS=['Dia 1 · 22/07 · Disneyland','Dia 2 · 23/07 · Torre Eiffel','Dia 3 · 24/07 · Louvre & Notre-Dame','Dia 4 · 25/07 · Arco do Triunfo'];
+var CAT_LABELS={atracao:'Ponto turístico',comida:'Padaria / Doce',hotel:'Hotel'};
+var PLACES=[
+  {day:0,name:'Quality Aparthotel Val d\'Europe',icon:'🏨',cat:'hotel',time:'Check-in ~10h30',desc:'Hotel parceiro em Chessy, a 10 min do parque',query:'9 Rue de la Galmy, 77700 Chessy',photo:false},
+  {day:0,name:'Disneyland Park',icon:'🏰',cat:'atracao',time:'11h – 22h45',desc:'Dia inteiro no parque · shuttle gratuito do hotel',query:'Disneyland Park, Chessy',photo:true},
+
+  {day:1,name:'Hotel Ibis (Torre Eiffel)',icon:'🏨',cat:'hotel',time:'Check-in ~9h30',desc:'Base para os próximos 3 dias · perto da Bir-Hakeim',coords:'48.8534,2.2965',photo:false},
+  {day:1,name:'Trocadéro',icon:'🗺️',cat:'atracao',time:'Manhã livre',desc:'Melhor mirante frontal da Torre Eiffel',coords:'48.8614,2.2893',photo:false},
+  {day:1,name:'Torre Eiffel',icon:'🗼',cat:'atracao',time:'15h – 18h',desc:'Subida ao cume · piso de vidro no 1.º andar',coords:'48.8584,2.2945',photo:true},
+  {day:1,name:'Cruzeiro Rio Sena',icon:'⛵',cat:'atracao',time:'21h30',desc:'Embarque na Port de la Bourdonnais',coords:'48.8571,2.2953',photo:true},
+
+  {day:2,name:'Museu do Louvre',icon:'🖼️',cat:'atracao',time:'9h30 – 13h',desc:'Mona Lisa · Vênus de Milo · Vitória de Samotrácia',coords:'48.8606,2.3376',photo:true},
+  {day:2,name:'Notre-Dame de Paris',icon:'⛪',cat:'atracao',time:'15h – 17h',desc:'Coroa de Cristo exposta 15h–18h30 (sexta-feira)',coords:'48.8530,2.3499',photo:true},
+  {day:2,name:'Le Nesle — O Bolo da Matilda',icon:'🍫',cat:'comida',time:'17h – 18h',desc:'Crêperie/salão de chá em Saint-Germain-des-Prés · bolo de chocolate quente',coords:'48.8527,2.3394',photo:true},
+
+  {day:3,name:'Arco do Triunfo',icon:'⭐',cat:'atracao',time:'10h – 12h',desc:'284 degraus · vista 360° de Paris',coords:'48.8738,2.2950',photo:true},
+  {day:3,name:'Avenue des Champs-Élysées',icon:'🛍️',cat:'atracao',time:'12h – 13h',desc:'Almoço de despedida e últimas compras',coords:'48.8669,2.3080',photo:true}
+];
+var placesFilter='todos';
+
+function placeMapsUrl(p){
+  return 'https://www.google.com/maps/search/?api=1&query='+(p.coords?p.coords:encodeURIComponent(p.query));
+}
+
+function renderPlacesFilters(){
+  var wrap=document.getElementById('places-filters');
+  wrap.innerHTML='';
+  var cats=[['todos','Todos'],['atracao','🎯 Atrações'],['comida','🥐 Padarias / Doces'],['hotel','🏨 Hotéis']];
+  cats.forEach(function(c){
+    var btn=document.createElement('button');
+    btn.className='pf-chip'+(placesFilter===c[0]?' active':'');
+    btn.textContent=c[1];
+    btn.onclick=function(){placesFilter=c[0];renderPlacesFilters();renderPlaces();};
+    wrap.appendChild(btn);
+  });
+}
+
+function renderPlaces(){
+  var body=document.getElementById('places-body');
+  body.innerHTML='';
+  for(var d=0;d<DAY_LABELS.length;d++){
+    var items=PLACES.filter(function(p){return p.day===d&&(placesFilter==='todos'||p.cat===placesFilter);});
+    if(!items.length) continue;
+    var block=document.createElement('div');
+    block.className='places-day-block';
+    var title=document.createElement('div');
+    title.className='places-day-title';
+    title.innerHTML='<span class="pdt-chip">'+DAY_LABELS[d]+'</span>';
+    block.appendChild(title);
+    var list=document.createElement('div');
+    list.className='place-list';
+    items.forEach(function(p){
+      var card=document.createElement('div');
+      card.className='place-card';
+      card.innerHTML=
+        '<span class="place-icon">'+p.icon+'</span>'+
+        '<div class="place-info">'+
+          '<div class="place-name-row"><span class="place-name">'+p.name+'</span>'+
+          '<span class="place-cat-badge pc-'+p.cat+'">'+CAT_LABELS[p.cat]+'</span></div>'+
+          '<div class="place-time">🕐 '+p.time+'</div>'+
+          '<div class="place-desc">'+p.desc+'</div>'+
+          (p.photo?'<div class="place-photo-tag">📷 Tem foto no roteiro</div>':'')+
+          '<a class="map-btn" href="'+placeMapsUrl(p)+'" target="_blank" rel="noopener">📍 Abrir no Maps</a>'+
+        '</div>';
+      list.appendChild(card);
+    });
+    block.appendChild(list);
+    body.appendChild(block);
+  }
+  if(!body.children.length){
+    body.innerHTML='<div style="text-align:center;color:var(--muted);padding:2rem;font-size:.85rem">Nenhum lugar nessa categoria.</div>';
+  }
+}
+
+function openPlaces(){
+  renderPlacesFilters();
+  renderPlaces();
+  document.getElementById('places-ov').classList.add('open');
+}
+function closePlaces(){
+  document.getElementById('places-ov').classList.remove('open');
 }
 
 function openLb(url,lbl){
