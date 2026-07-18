@@ -654,6 +654,50 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);
   </div>
 </div>
 
+<!-- ═══ METRÔ POR DIA ═══ -->
+<button class="tog-btn" onclick="tog('metro',this)">
+  🚇 Quantas viagens de metrô/RER por dia — qual bilhete comprar
+  <span class="arr">›</span>
+</button>
+<div class="tog-panel" id="panel-metro">
+  <div class="ing-note">💡 Cada trecho de metrô/RER conta como <strong>1 viagem</strong> (mesmo com baldeação de linha, contanto que não saia da área paga). As viagens com ⭐ usam tarifa especial — fora da zona 1 de Paris — e precisam de bilhete separado, não entram no carnê comum de bilhetes t+.</div>
+  <div class="ing-grid">
+    <div class="ing-card">
+      <div class="ic-icon">1️⃣</div>
+      <div class="ic-name">Dia 1 · Disneyland</div>
+      <div class="ic-price" style="color:var(--muted)">0 viagens</div>
+      <div class="ic-when">Shuttle privado CDG → hotel e hotel ↔ parque — não usa bilhete de metrô/RER.</div>
+    </div>
+    <div class="ing-card">
+      <div class="ic-icon">2️⃣</div>
+      <div class="ic-name">Dia 2 · Arco & Torre Eiffel</div>
+      <div class="ic-price">3 viagens</div>
+      <div class="ic-when">⭐ Chessy → Ibis (RER A + L6)<br>Hotel → Arco (L6)<br>Arco → Hotel (L6)</div>
+    </div>
+    <div class="ing-card">
+      <div class="ic-icon">3️⃣</div>
+      <div class="ic-name">Dia 3 · Louvre & Notre-Dame</div>
+      <div class="ic-price">3 viagens</div>
+      <div class="ic-when">Hotel → Louvre (L6+L1)<br>Ladurée → Notre-Dame (RER C)<br>Le Nesle → Hotel (RER C)</div>
+    </div>
+    <div class="ing-card">
+      <div class="ic-icon">4️⃣</div>
+      <div class="ic-name">Dia 4 · Partida</div>
+      <div class="ic-price">1 viagem</div>
+      <div class="ic-when">⭐ Hotel → Aeroporto (RER C+B ou L6+Orlybus)</div>
+    </div>
+  </div>
+  <div class="ticket-box" style="margin-top:.75rem;">
+    <h4>🧮 Total por pessoa: 7 viagens (5 na zona 1 de Paris + 2 de tarifa especial ⭐)</h4>
+    <ul>
+      <li>🎫 <span><strong>5 viagens na zona 1</strong> (Dia 2: 2 · Dia 3: 3) → um carnê de 10 bilhetes t+ cobre essas viagens de uma pessoa com sobra, ou dá pra dividir entre duas pessoas.</span></li>
+      <li>⭐ <span><strong>2 viagens de tarifa especial</strong> (Chessy↔Paris e Hotel↔Aeroporto) → sempre compradas à parte, não entram no carnê comum nem no Navigo Easy padrão.</span></li>
+      <li>💳 <span>Para não ficar comprando bilhete avulso toda hora, o <strong>Navigo Easy</strong> (cartão recarregável, ~€2 o cartão) aceita bilhetes avulsos e também o "Forfait Navigo Jour" (dia ilimitado) — compare o preço do dia com o carnê antes de decidir.</span></li>
+    </ul>
+  </div>
+  <div class="ing-note" style="margin-top:.75rem;">⚠️ Preços de bilhetes mudam com frequência — confirme os valores atuais em <em>iledefrance-mobilites.fr</em> antes de comprar.</div>
+</div>
+
 </div><!-- /panel-visao -->
 
 <!-- ═══════════════════════════════════════
